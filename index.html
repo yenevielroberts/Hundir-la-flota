@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="script.js" defer></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Hundir la flota</h1>
+    <p>Instrucciones:</p>
+    <ul>
+        <li>Selecionar el barco</li>
+        <li>Seleccionar la dirección</li>
+        <li>Seleccionar la celda</li>
+        <li>click en el boton <strong>Colocar barco</strong></li>
+    </ul>
+    <div id="container">
+        <!--seccion del usuario-->
+        <section id="section_user">
+            <div id="info_user">
+                <h2 id="tituloUser">Tu tablero</h2>
+                <section id="btnBarcos">
+                    <button id="Portaaviones">Porta aviones</button>
+                    <button id="Acorazado">Acorazado</button>
+                    <button id="Crucero">Crucero</button>
+                    <button id="Submarino">Submarino</button>
+                    <button id="Destructor">Destructor</button>
+                </section>
+                <h3>Dirección del barco</h3>
+                <section id="btnDirección">
+                    <button id="horizontal">Horizontal</button>
+                    <button id="vertical">Vertical</button>
+                    <button id="colocarBarco">Colocar barco</button>
+                    <button id="btnEmpezarGame" disabled="true" style="display: none;">Empezar partida</button>
+                    <button id="btnNuevaPartida" disabled="true" style="display: none;">Nueva partida</button>
+                    <button id="btnGuardar">Guardar partida</button>
+                </section>
+            </div>
+            <div id="contenedor_user"></div>
+        </section>
+
+        <!--Sección de la maquina-->
+        <section id="section_ai">
+            <div id="info_ai">
+                <h2>Tablero AI</h2>
+            </div>
+            <div id="contenedor_ai"></div>
+        </section>
+    </div>
+</body>
+
+</html>

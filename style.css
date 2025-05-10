@@ -1,0 +1,166 @@
+* {
+   /*background-color: #3e99fa;*/
+}
+
+/*AI section*/
+#container{
+    margin:30px;
+    display: flex;
+    flex-direction:row;
+    flex-wrap: wrap;
+   /*justify-content: space-around;*/
+    width: 100%;
+    height: 100%;
+    justify-content: space-around;
+}
+#contenedor_ai {
+
+    margin-top: 125px;
+    border: solid black;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 30rem;
+    height: 100%;
+}
+
+#section_ai{
+    border-radius: 20px;
+    border:solid black;
+    display: flex;
+    flex-direction: column;
+    width: 32rem;
+    height: 42rem;
+    justify-content: center;
+    align-items: center; 
+    background-color:  #3639e5;
+    
+}
+
+#info_ai{
+   
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 20px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    background-color:  #3639e5;
+}
+
+h2{
+
+    background-color:  #3639e5;
+}
+
+
+/*User section*/
+
+.celda_user{
+
+    border: solid black;
+    width:40px;
+    height: 35px;
+    background-color: skyblue;
+
+}
+.celdaUserOcu{
+    background-color: skyblue;
+    font-size:25px;
+}
+
+#contenedor_user{
+
+    border:solid black;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 30rem;
+    height: 100%;
+
+}
+
+button{
+    background-color: #0a64f7;
+    border-radius: 10px;
+    padding: 5px;
+    color: black;
+}
+
+button:hover{
+    
+    background-color: #ff285c;
+    
+}
+
+#btnEmpezarGame:hover{
+    background-color: green;
+}
+
+.celda_user:hover{
+
+    background-color: blue;
+    
+}
+
+.impacto{
+    background-color: red;
+}
+
+.celda {
+    border: solid black;
+    width: 40px;
+    height: 35px;
+    background-color:white;
+}
+
+.celdaOcupada {
+    background-color: white;
+    font-size:25px;
+}
+
+
+#section_user{
+
+    border-radius: 20px;
+    border:solid black;
+    display: flex;
+    flex-direction: column;
+    width: 32rem;
+    height: 42rem;
+   
+    justify-content: center;
+    align-items: center;
+    background-color: #ca5ff0; 
+
+}
+#info_user{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 20px;
+    justify-content: center;
+    align-items: center;
+    background-color: #ca5ff0;
+    border-radius: 25px;
+      
+}
+
+#btnBarcos,#btnDirección, h3{
+    background-color: #ca5ff0;  
+}
+
+
+#tituloUser{
+    background-color: #ca5ff0;
+}
+
+.celda_tocada{
+    background-color: blue;
+}
+
