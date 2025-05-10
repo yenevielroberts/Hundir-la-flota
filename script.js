@@ -1,4 +1,4 @@
-import { Tablero } from "./TableroAi.js";
+import { TableroAi } from "./TableroAi.js";
 import { TableroUser } from "./TableroUser.js";
 
 const barcosJson = `[
@@ -10,7 +10,18 @@ const barcosJson = `[
 ]`
 
 
+const tableroAi=new TableroAi()
+tableroAi.guardarBarcos(barcosJson)
+tableroAi.generarTablero()
+tableroAi.posicionarBarcos()
+const listaCeldasAI = tableroAi.listaCeldas
+const listaBarcosAI=tableroAi.listaBarcos
 
+const tableroUser=new TableroUser()
+tableroUser.guardarBarcosUser(barcosJson)
+tableroUser.generarTableroUser()
+const userListabarcos=tableroUser.listaBarcos
+const userListaceldas=tableroUser.celdasUser
 
 function vistaTableroAI() {
     const contenedor = document.getElementById('contenedor_ai');
@@ -21,7 +32,7 @@ function vistaTableroAI() {
             let celdaPosicion = `${i}` + `${x}`;
 
             let celda = document.createElement('div')
-            celda.setAttribute("class", "celda")
+            celda.setAttribute("class", "celda_ai")
             celda.setAttribute("id", celdaPosicion)
 
             if (listaCeldasAI[i][x].agua == false) {

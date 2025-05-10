@@ -1,7 +1,7 @@
 import { Barco } from "./Barco.js";
 import { Celda } from "./Celda.js";
 
-export class Tablero {
+export class TableroAi {
     #tamano = 10;
     #celdas;
     #listaBarcos = [];
