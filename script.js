@@ -66,19 +66,52 @@ function vistaTableroUser() {
     return contenedor_user
 }
 
+//función activa el tablero de la AI
 function activarTableroAi() {
     const celdasTablerblank = document.getElementsByClassName("celda_ai")
 
     for (let i = 0; i < celdasTablerblank.length; i++) {
 
-        celdasTablerblank[i].addEventListener("click", () => {
-
-        });
+        celdasTablerblank[i].addEventListener("click",handlerTableroAI);
         celdasTablerblank[i].style.backgroundColor = "skyblue";
     }
 }
 
-//activa todos los botones
+function desActivarTableroAI(){
+   
+     const celdasTablerblank = document.getElementsByClassName("celda_ai")
+    for (let i = 0; i < celdasTablerblank.length; i++) {
+
+        celdasTablerblank[i].removeEventListener("click",handlerTableroAI);
+    }
+}
+
+function handlerTableroAI(event) {
+    const celdasTablerblank = document.getElementsByClassName("celda_ai")
+    listaCeldasAI
+
+    let celdaIndex = event.target.id
+    let fila = parseInt(celdaIndex[0])
+    let columna = parseInt(celdaIndex[1])
+
+    if (!listaCeldasAI[fila][columna].agua) {
+
+        let celda = celdasTablerblank[fila * 10 + columna];//se multiplica por 10 ya que el tablero es 10x10
+        celda.classList.add("celda_tocada");
+        celda.textContent = "🔥";
+        celda.removeEventListener("click",handlerTableroAI);
+    }else{
+        console.log("Solo agua")
+        alert("Solo hay agua. Turno de la AI")
+    }
+
+}
+
+function turnoDeAI(){
+    
+}
+
+//activa todos los botones del tablero de usuario
 function activarTableroUser() {
 
     barcoName = "";
@@ -97,8 +130,9 @@ function activarTableroUser() {
     }
 }
 
-function desactivarBotones(){
-     const listaCeldasUser = document.getElementsByClassName("celda_user");
+//Desactiva todos los botones del tablero de usuario
+function desactivarBotones() {
+    const listaCeldasUser = document.getElementsByClassName("celda_user");
     //Botones
     const btnHorizontal = document.getElementById("horizontal").removeEventListener("click", handlerBtnDireccion);
     const btnVertical = document.getElementById("vertical").removeEventListener("click", handlerBtnDireccion);
@@ -115,7 +149,7 @@ function desactivarBotones(){
 }
 
 //handler para el botón de dirección
-function handlerBtnDireccion(event) { 
+function handlerBtnDireccion(event) {
     direccion = event.target.id
 }
 
@@ -158,7 +192,7 @@ function visualizarBarcosUser(event) {
         } else {
             alert("Error. Este barco ya esta colocado no esta posición no esta disponible")
         }
-    }else{
+    } else {
         alert("Todos los barcos ya estan colocados")
         desactivarBotones()
     }
@@ -168,9 +202,9 @@ function visualizarBarcosUser(event) {
 function todosColocados() {
 
     let colocados = userListabarcos.every(barco => {
-        if(barco.colocado == true){
+        if (barco.colocado == true) {
             return true
-        }else{
+        } else {
             return false
         }
     })
@@ -192,9 +226,14 @@ function obtenerPosicionBarco(nomBarco) {
 
 function empezarJuego() {
     activarTableroUser()
-    //activarTableroAi()
+ activarTableroAi() 
+
+
 
 }
+
+
+
 vistaTableroAI();
 vistaTableroUser();
 empezarJuego()
