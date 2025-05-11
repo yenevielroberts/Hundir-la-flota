@@ -79,7 +79,7 @@ export class TableroAi {
                       
                         this.#celdas[posY][posx].nomBarco=barco.nombre
                         this.#celdas[posY][posx].sizeBarco=barco.tamano
-                        barco.posiciones.push([posx, posY])
+                        barco.posiciones.push([posY, posx])
                     }
                     barco.colocado=true
                     colocado = true

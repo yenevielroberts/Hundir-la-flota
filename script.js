@@ -110,7 +110,7 @@ function handlerTableroAI(event) {
          console.log(userListabarcos[indexBarcoTocado])
         if(comprobarHundimientoBarco(listaBarcosAI[indexBarcoTocado],listaCeldasAI)){
             userListabarcos[indexBarcoTocado].hundido=true
-            alert("Barco: "+celda.nomBarco+" hundido")
+            alert("Barco: "+listaCeldasAI[fila][columna].nomBarco+" hundido")
         }
 
         if(comprobarGanador()){
@@ -314,22 +314,20 @@ function obtenerPosicionBarco(nomBarco) {
 
 function comprobarHundimientoBarco(barco, listaCeldas) {
         // Recorro las posiciones del barco y miro si las celdas en la que esta ha sido tocado.
-        console.log("dentro de la funcion")
         let celdasTocadas=0;
 
-        console.log(barco.posiciones.length)
         for (let i = 0; i < barco.posiciones.length; i++) {
 
-            console.log("dentro del bucle")
             let pos = barco.posiciones[i];
             let fila = pos[0];
             let columna = pos[1];
             let celda = listaCeldas[fila][columna];
 
-            if (celda.tocado) {
-                 celdasTocadas=+1//por cada celda tocada se incrementa
-                 console.log(celdasTocadas)
+            if (celda.tocado==true) {
+                 celdasTocadas+=1//por cada celda tocada se incrementa
 
+            }else{
+                console.log("celda no tocada")
             }
         }
 
