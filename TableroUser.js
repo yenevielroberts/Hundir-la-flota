@@ -114,11 +114,11 @@ export class TableroUser {
                 console.log("la celda esta ocupada")
                 espacioLibre = false
                 break;
-            } else if (this.#celdasUser[posX][posY].agua == false) {
+            }/* else if (this.#celdasUser[posX][posY].agua == false) {
                 console.log("la celda esta ocupada")
                 espacioLibre = false
                 break;
-            }
+            }*/
 
             
         }

@@ -66,7 +66,6 @@ function vistaTableroUser() {
     return contenedor_user
 }
 
-
 function activarTableroAi() {
     const celdasTablerblank = document.getElementsByClassName("celda_ai")
 
@@ -79,6 +78,7 @@ function activarTableroAi() {
     }
 }
 
+//activa todos los botones
 function activarTableroUser() {
 
     barcoName = "";
@@ -97,16 +97,34 @@ function activarTableroUser() {
     }
 }
 
+function desactivarBotones(){
+     const listaCeldasUser = document.getElementsByClassName("celda_user");
+    //Botones
+    const btnHorizontal = document.getElementById("horizontal").removeEventListener("click", handlerBtnDireccion);
+    const btnVertical = document.getElementById("vertical").removeEventListener("click", handlerBtnDireccion);
+    const btnPortaaviones = document.getElementById("Portaaviones").removeEventListener("click", handlerBtnsBarcos)
+    const btnAcorazado = document.getElementById("Acorazado").removeEventListener("click", handlerBtnsBarcos)
+    const btnCrucero = document.getElementById("Crucero").removeEventListener("click", handlerBtnsBarcos)
+    const btnSubmarino = document.getElementById("Submarino").removeEventListener("click", handlerBtnsBarcos)
+    const btnDestructor = document.getElementById("Destructor").removeEventListener("click", handlerBtnsBarcos)
+    for (let x = 0; x < listaCeldasUser.length; x++) {
 
-function handlerBtnDireccion(event) {//handler para el botón de dirección 
+        listaCeldasUser[x].removeEventListener("click", visualizarBarcosUser)
+    }
+    console.log("botones desactivados")
+}
+
+//handler para el botón de dirección
+function handlerBtnDireccion(event) { 
     direccion = event.target.id
-    console.log(direccion)
-}
-function handlerBtnsBarcos(event) {//handler para los botones de los barcos 
-    barcoName = event.target.id
-    console.log(barcoName)
 }
 
+//handler para los botones de los barcos 
+function handlerBtnsBarcos(event) {
+    barcoName = event.target.id
+}
+
+//función que muestra los barcos celecionados por el usuario en el tablero
 function visualizarBarcosUser(event) {
 
     if (!barcoName || !direccion) {
@@ -118,31 +136,48 @@ function visualizarBarcosUser(event) {
     let celdaIndex = event.target.id
     let fila = parseInt(celdaIndex[0])
     let columna = parseInt(celdaIndex[1])
-    console.log("fila: " + fila + " Columna: " + columna)
 
     const barcoIndex = obtenerPosicionBarco(barcoName)//Obtengo el index del barco dentro del array de barcos.
 
-    if (tableroUser.colorcarBarcoUser(columna, fila, direccion, barcoIndex)) {
-        
-        console.log(userListaceldas)
-        for (let filaIndex = 0; filaIndex < userListaceldas.length; filaIndex++) {
+    if (!todosColocados()) {
+        if (tableroUser.colorcarBarcoUser(columna, fila, direccion, barcoIndex)) {
 
-            for (let columnaIndex = 0; columnaIndex < userListaceldas
-            [filaIndex].length; columnaIndex++) {
+            for (let filaIndex = 0; filaIndex < userListaceldas.length; filaIndex++) {
 
-                if (!userListaceldas[filaIndex][columnaIndex].agua) {
+                for (let columnaIndex = 0; columnaIndex < userListaceldas
+                [filaIndex].length; columnaIndex++) {
 
-                     let celda = listaCeldashtml[filaIndex * 10 + columnaIndex];
-                    celda.classList.add("celdaUserOcu");
-                    celda.textContent = "🚢";
+                    if (!userListaceldas[filaIndex][columnaIndex].agua) {
+
+                        let celda = listaCeldashtml[filaIndex * 10 + columnaIndex];//se multiplica por 10 ya que el tablero es 10x10
+                        celda.classList.add("celdaUserOcu");
+                        celda.textContent = "🚢";
+                    }
                 }
             }
+        } else {
+            alert("Error. Este barco ya esta colocado no esta posición no esta disponible")
         }
+    }else{
+        alert("Todos los barcos ya estan colocados")
+        desactivarBotones()
     }
 }
 
+//función que comprueba si todos los barcos estan colocados
+function todosColocados() {
 
-/*Función que retorna la posición del barco() nombre que se pasa por paramentro) dentro del array */
+    let colocados = userListabarcos.every(barco => {
+        if(barco.colocado == true){
+            return true
+        }else{
+            return false
+        }
+    })
+    return colocados
+}
+
+/*Función que retorna la posición del barco ()cuyo nombre que se pasa por paramentro) dentro del array */
 function obtenerPosicionBarco(nomBarco) {
     let index = userListabarcos.findIndex(barco => {
 
