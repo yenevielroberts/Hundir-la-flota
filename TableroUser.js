@@ -67,20 +67,23 @@ export class TableroUser {
                         this.#celdasUser[posX][posY].nomBarco = objetoBarco.nombre
 
                         objetoBarco.posiciones.push([posX, posY])
+                        
                     }
                 }
+
                 objetoBarco.colocado = true
-                colocado=true;
-                /*this.#desactivarBtnBarcos(objetoBarco.nombre, cliclHandler)*/
+
             } else {
                 colocado=false
-                alert("Error. No se puede colocar el barco en esa posición")
+                console.log("Error. No se puede colocar el barco en esa posición")
             }
+            
         } else {
             colocado=false
-            alert("Este barco ya esta colocado")
+            console.log("Este barco ya esta colocado")
         }
 
+        console.log(colocado)
         return colocado
     }
 
@@ -93,7 +96,7 @@ export class TableroUser {
             let posY = 0;
             if (direccion == "horizontal") {
 
-                posX = (columna) + x // desplazamiento en la columna
+                posX = columna + x // desplazamiento en la columna
                 posY = fila // fila permanece constante
 
             } else if (direccion == "vertical") {
@@ -116,6 +119,8 @@ export class TableroUser {
                 espacioLibre = false
                 break;
             }
+
+            
         }
         return espacioLibre
     }
