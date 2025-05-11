@@ -2,11 +2,11 @@ export class Barco {
     #nombre;
     #tamano;
     #posiciones = [];
-    #casillasTocadas = 0;
+    #hundido = 0;
     #colocado;
 
-    constructor(nombre, tamano, casillasTocadas) {
-        this.#casillasTocadas = casillasTocadas
+    constructor(nombre, tamano) {
+        this.#hundido = false
         this.#nombre = nombre
         this.#tamano = tamano
         this.#posiciones = []
@@ -25,6 +25,10 @@ export class Barco {
     get colocado(){
         return this.#colocado
     }
+
+    get hundido(){
+        return this.#hundido
+    }
     //setter
     set nombre(nuevoNombre) {
         this.#nombre = nuevoNombre
@@ -38,6 +42,10 @@ export class Barco {
     }
     set colocado(valor){
         this.#colocado=valor
+    }
+
+    set hundido(valor){
+        this.#hundido=valor
     }
 
 }

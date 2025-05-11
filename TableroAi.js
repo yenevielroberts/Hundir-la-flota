@@ -77,11 +77,11 @@ export class TableroAi {
                         this.#celdas[posY][posx].agua = false;//la celda es esa posición estara ocupada
                         this.#celdas[posY][posx].posicion.push([posY, posx])//guarda la posicion de esa celda
                       
-                        
                         this.#celdas[posY][posx].nomBarco=barco.nombre
                         this.#celdas[posY][posx].sizeBarco=barco.tamano
                         barco.posiciones.push([posx, posY])
                     }
+                    barco.colocado=true
                     colocado = true
                 }
             }

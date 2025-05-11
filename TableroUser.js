@@ -55,6 +55,9 @@ export class TableroUser {
 
                         this.#celdasUser[posY][posX].agua = false;//la celda es esa posición estara ocupada
                         this.#celdasUser[posY][posX].posicion.push([posY, posX])//guarda la posicion de esa celda
+                         this.#celdasUser[posX][posY].nomBarco = objetoBarco.nombre
+                         this.#celdasUser[posX][posY].sizeBarco = objetoBarco.tamano
+                         
                         objetoBarco.posiciones.push([posY, posX])
 
                     } else if (direccion == "vertical") {
@@ -65,6 +68,7 @@ export class TableroUser {
 
                         this.#celdasUser[posX][posY].posicion.push([posX, posY])
                         this.#celdasUser[posX][posY].nomBarco = objetoBarco.nombre
+                        this.#celdasUser[posX][posY].sizeBarco = objetoBarco.tamano
 
                         objetoBarco.posiciones.push([posX, posY])
                         

@@ -23,6 +23,7 @@ tableroUser.generarTableroUser()
 const userListabarcos = tableroUser.listaBarcos
 const userListaceldas = tableroUser.celdasUser
 
+let juegoTerminado=false;
 let barcoName = "";
 let direccion = '';
 
@@ -88,27 +89,113 @@ function desActivarTableroAI(){
 
 function handlerTableroAI(event) {
     const celdasTablerblank = document.getElementsByClassName("celda_ai")
-    listaCeldasAI
 
     let celdaIndex = event.target.id
     let fila = parseInt(celdaIndex[0])
     let columna = parseInt(celdaIndex[1])
+    let juegaAI=false;
 
     if (!listaCeldasAI[fila][columna].agua) {
 
+        listaCeldasAI[fila][columna].tocado=true
         let celda = celdasTablerblank[fila * 10 + columna];//se multiplica por 10 ya que el tablero es 10x10
         celda.classList.add("celda_tocada");
         celda.textContent = "🔥";
         celda.removeEventListener("click",handlerTableroAI);
+
+         let indexBarcoTocado=obtenerPosicionBarco(listaCeldasAI[fila][columna].nomBarco)
+
+         console.log(listaCeldasAI[fila][columna].nomBarco)
+
+         console.log(userListabarcos[indexBarcoTocado])
+        if(comprobarHundimientoBarco(listaBarcosAI[indexBarcoTocado],listaCeldasAI)){
+            userListabarcos[indexBarcoTocado].hundido=true
+            alert("Barco: "+celda.nomBarco+" hundido")
+        }
+
+        if(comprobarGanador()){
+            desActivarTableroAI()
+        }
+
     }else{
         console.log("Solo agua")
         alert("Solo hay agua. Turno de la AI")
+
+        do {
+            juegaAI=turnoDeAI()
+
+        } while (juegaAI);
+
+         if(comprobarGanador()){
+            desActivarTableroAI()
+        }
     }
 
 }
 
 function turnoDeAI(){
     
+    let acertado = false;
+
+    // Elegir una celda aleatoria
+    let fila = Math.floor(Math.random() * 10);
+    let columna = Math.floor(Math.random() * 10);
+
+    let celda = userListaceldas[fila][columna];
+    //console.log(celda)
+
+    if (celda.agua == true && celda.tocado==false) {
+
+        const mensajeJuegaDeNuevo=setTimeout(()=>alert("IA disparó al agua. Es tu turno"), 1000);
+
+        mensajeJuegaDeNuevo
+        const celdaHTML = document.getElementById(`${fila}` + `${columna}`).classList.add("celda_tocada")
+
+    } else {
+        celda.tocado = true;
+        acertado = true
+        const celdaHTML = document.getElementById(`${fila}` + `${columna}`); 
+        const alertTimeOut=setTimeout(()=>alert("IA impactó un barco!. La AI juega de nuevo"),1000);
+        alertTimeOut
+
+        celdaHTML.classList.add("celda_tocada");
+        celdaHTML.textContent="🔥";
+
+         let indexBarcoTocado=obtenerPosicionBarco(celda.nomBarco)
+         console.log(celda.nomBarco)
+        if(comprobarHundimientoBarco(userListabarcos[indexBarcoTocado],userListaceldas)){
+            userListabarcos[indexBarcoTocado].hundido=true
+            alert("Barco: "+celda.nomBarco+" hundido")
+
+        }
+    }
+
+    return acertado
+}
+
+function comprobarGanador(){
+    const userGanador=userListabarcos.every(barco=>{
+        if(barco.hundido==true){
+            return true
+        }else{
+            return false
+        }
+    })
+    const aiGanador=listaBarcosAI.every(barco=>{
+        if(barco.hundido==true){
+            return true
+        }else{
+            return false
+        }
+    })
+
+    if(userGanador){
+        alert("Has ganado")
+        juegoTerminado=true
+    }else if(aiGanador){
+        alert("La ai ha ganado")
+        juegoTerminado=true
+    }
 }
 
 //activa todos los botones del tablero de usuario
@@ -223,6 +310,35 @@ function obtenerPosicionBarco(nomBarco) {
     })
     return index
 }
+
+
+function comprobarHundimientoBarco(barco, listaCeldas) {
+        // Recorro las posiciones del barco y miro si las celdas en la que esta ha sido tocado.
+        console.log("dentro de la funcion")
+        let celdasTocadas=0;
+
+        console.log(barco.posiciones.length)
+        for (let i = 0; i < barco.posiciones.length; i++) {
+
+            console.log("dentro del bucle")
+            let pos = barco.posiciones[i];
+            let fila = pos[0];
+            let columna = pos[1];
+            let celda = listaCeldas[fila][columna];
+
+            if (celda.tocado) {
+                 celdasTocadas=+1//por cada celda tocada se incrementa
+                 console.log(celdasTocadas)
+
+            }
+        }
+
+        if(celdasTocadas==barco.posiciones.length){//si el número de celdas es igual al tamaño del array qur guarda las posciones el barco esta hundido
+            return true
+        }else{
+            return false
+        }
+    }
 
 function empezarJuego() {
     activarTableroUser()
