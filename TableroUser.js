@@ -16,11 +16,11 @@ export class TableroUser {
 
     generarTableroUser() {
 
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < this.#tamano; i++) {
 
             this.#celdasUser.push([])
 
-            for (let x = 0; x < 10; x++) {
+            for (let x = 0; x < this.#tamano; x++) {
                 this.#celdasUser[i].push(new Celda())
             }
         }
@@ -36,8 +36,6 @@ export class TableroUser {
             this.#listaBarcosUser.push(barco)
         }
     }
-
- 
 
     colorcarBarcoUser(CeldaUserCol, celdaUserFil, direccion, barcoIndex) {
 
@@ -126,7 +124,6 @@ export class TableroUser {
 
         return this.#listaBarcosUser
     }
-
     get celdasUser() {
         return this.#celdasUser
     }
