@@ -108,7 +108,12 @@ function handlerBtnsBarcos(event) {//handler para los botones de los barcos
 }
 
 function visualizarBarcosUser(event) {
-    const container = document.getElementById("contenedor_user");
+
+    if (!barcoName || !direccion) {
+        alert("Por favor selecciona un barco y una dirección antes de colocarlo.");
+        return;
+    }
+
     const listaCeldashtml = document.getElementsByClassName("celda_user");
     let celdaIndex = event.target.id
     let fila = parseInt(celdaIndex[0])
@@ -116,31 +121,24 @@ function visualizarBarcosUser(event) {
     console.log("fila: " + fila + " Columna: " + columna)
 
     const barcoIndex = obtenerPosicionBarco(barcoName)//Obtengo el index del barco dentro del array de barcos.
+
     if (tableroUser.colorcarBarcoUser(columna, fila, direccion, barcoIndex)) {
-
-        //console.log("posición barco:" + barcoIndex)
-
+        
+        console.log(userListaceldas)
         for (let filaIndex = 0; filaIndex < userListaceldas.length; filaIndex++) {
 
             for (let columnaIndex = 0; columnaIndex < userListaceldas
             [filaIndex].length; columnaIndex++) {
 
-                console.log(columnaIndex)
-                console.log(userListaceldas[filaIndex][columnaIndex].agua)
+                if (!userListaceldas[filaIndex][columnaIndex].agua) {
 
-                if (userListaceldas[filaIndex][columnaIndex].agua == false) {
-
-                    //console.log(listaCeldasUser[fila][columna])
-                    listaCeldashtml[filaIndex * 10 + columnaIndex].setAttribute("class", "celdaUserOcu")
-                    listaCeldashtml[filaIndex * 10 + columnaIndex].textContent = "🚢";
-                    //container.appendChild(listaCeldashtml[filaIndex * 10 + columnaIndex])
+                     let celda = listaCeldashtml[filaIndex * 10 + columnaIndex];
+                    celda.classList.add("celdaUserOcu");
+                    celda.textContent = "🚢";
                 }
             }
         }
-
     }
-
-
 }
 
 
@@ -154,13 +152,12 @@ function obtenerPosicionBarco(nomBarco) {
             return false
         }
     })
-
     return index
 }
 
 function empezarJuego() {
-
     activarTableroUser()
+    //activarTableroAi()
 
 }
 vistaTableroAI();
