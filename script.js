@@ -235,6 +235,8 @@ function activarTableroUser() {
     const btnCrucero = document.getElementById("Crucero").addEventListener("click", handlerBtnsBarcos)
     const btnSubmarino = document.getElementById("Submarino").addEventListener("click", handlerBtnsBarcos)
     const btnDestructor = document.getElementById("Destructor").addEventListener("click", handlerBtnsBarcos)
+    const btnAleatorio = document.getElementById("aleatorio").addEventListener("click", colocarbarcosUserAleatorio)
+
     for (let x = 0; x < listaCeldasUser.length; x++) {
 
         listaCeldasUser[x].addEventListener("click", visualizarBarcosUser)
@@ -271,6 +273,8 @@ function handlerBtnsBarcos(event) {
 
 //función que muestra los barcos celecionados por el usuario en el tablero
 function visualizarBarcosUser(event) {
+
+    const btnAleatorio = document.getElementById("aleatorio").removeEventListener("click", colocarbarcosUserAleatorio);
 
     if (!barcoName || !direccion) {
         alert("Por favor selecciona un barco y una dirección antes de colocarlo.");
@@ -310,6 +314,31 @@ function visualizarBarcosUser(event) {
 
 }
 
+function colocarbarcosUserAleatorio() {
+    desactivarBotones()
+
+    tableroUser.ColocarBarcosAleatorio()
+    const listaCeldashtml = document.getElementsByClassName("celda_user");
+    for (let filaIndex = 0; filaIndex < userListaceldas.length; filaIndex++) {
+
+        for (let columnaIndex = 0; columnaIndex < userListaceldas
+        [filaIndex].length; columnaIndex++) {
+
+            if (!userListaceldas[filaIndex][columnaIndex].agua) {
+
+                let celda = listaCeldashtml[filaIndex * 10 + columnaIndex];//se multiplica por 10 ya que el tablero es 10x10
+                celda.classList.add("celdaUserOcu");
+                celda.textContent = "🚢";
+            }
+        }
+    }
+
+     if (todosColocados()) {
+        alert("Empienza el juego")
+        activarTableroAi()
+        desactivarBotones()
+    }
+}
 //función que comprueba si todos los barcos estan colocados
 function todosColocados() {
 

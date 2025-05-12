@@ -107,7 +107,7 @@ export class TableroUser {
                 posX = columna
             }
 
-            if (posX < 0 || posX > 9 || posY < 0 || posY > 9) {
+            if (posX < 0 || posX >=10 || posY < 0 || posY >=10) {
 
                 console.log("no hay espacio supera el número")
                 espacioLibre = false
@@ -127,6 +127,62 @@ export class TableroUser {
         }
         return espacioLibre
     }
+
+    ColocarBarcosAleatorio() {
+
+        this.#listaBarcosUser.forEach(barco => {
+
+            let colocado = false;
+            while (!colocado) {
+
+                let posx = 0;  //numero de celda que generado por el aumento del numero de la celda original
+                let posY = 0;
+
+                let direccionRandom = Math.floor(Math.random() * 2)
+                let direccion = ""
+
+                if (direccionRandom === 0) {
+                    direccion = "vertical"
+                } else if (direccionRandom === 1) {
+                    direccion = "horizontal"
+                }
+
+                //genero posiciones y dirección
+                let fila = Math.floor(Math.random() * 10)
+                let columna = Math.floor(Math.random() * 10)
+
+
+                if (this.#hayEspacioTableroUser(barco, direccion, fila, columna)) {
+
+                    for (let x = 0; x < barco.tamano; x++) {
+
+
+                        if (direccion == "horizontal") {
+                            posx = columna + x//incrementa una celda horizontal
+                            posY = fila
+                        } else if (direccion == "vertical") {
+                            posY = fila + x
+                            posx = columna
+                        }
+
+                        this.#celdasUser[posY][posx].agua = false;//la celda es esa posición estara ocupada
+
+                        this.#celdasUser[posY][posx].posicion.push([posY, posx])//guarda la posicion de esa celda
+
+                        this.#celdasUser[posY][posx].nomBarco = barco.nombre
+                        this.#celdasUser[posY][posx].sizeBarco = barco.tamano
+                        barco.posiciones.push([posY, posx])
+                        
+                    }
+                    barco.colocado=true
+                    colocado = true
+                    console.log(barco)
+                }
+            }
+
+        })
+    }
+
     
     get listaBarcos() {
 
