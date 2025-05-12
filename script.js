@@ -23,7 +23,7 @@ tableroUser.generarTableroUser()
 const userListabarcos = tableroUser.listaBarcos
 const userListaceldas = tableroUser.celdasUser
 
-let juegoTerminado = false;
+let userGanador = false;
 let barcoName = "";
 let direccion = '';
 
@@ -204,7 +204,14 @@ function comprobarGanador() {
     if (userPerdedor) {
         alert("Has Perdido")
     } else if (aiPerdedor) {
-        alert("Has ganado")
+
+        userGanador = true
+        //funcion para mostrar conffeti
+        confetti({
+            particleCount: 500,
+            spread: 70,
+            origin: { y: 0.6 },
+        });
 
     }
 
@@ -355,17 +362,10 @@ function comprobarHundimientoBarco(barco, listaCeldas) {
     }
 }
 
-function empezarJuego() {
-    activarTableroUser()
-
-
-
-
-}
-
-
 
 vistaTableroAI();
 vistaTableroUser();
-empezarJuego()
+activarTableroUser();
+
+
 
