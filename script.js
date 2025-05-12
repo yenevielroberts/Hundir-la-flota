@@ -23,7 +23,7 @@ tableroUser.generarTableroUser()
 const userListabarcos = tableroUser.listaBarcos
 const userListaceldas = tableroUser.celdasUser
 
-let juegoTerminado=false;
+let juegoTerminado = false;
 let barcoName = "";
 let direccion = '';
 
@@ -73,128 +73,145 @@ function activarTableroAi() {
 
     for (let i = 0; i < celdasTablerblank.length; i++) {
 
-        celdasTablerblank[i].addEventListener("click",handlerTableroAI);
+        celdasTablerblank[i].addEventListener("click", handlerTableroAI);
         celdasTablerblank[i].style.backgroundColor = "skyblue";
     }
 }
 
-function desActivarTableroAI(){
-   
-     const celdasTablerblank = document.getElementsByClassName("celda_ai")
+function desActivarTableroAI() {
+
+    const celdasTablerblank = document.getElementsByClassName("celda_ai")
     for (let i = 0; i < celdasTablerblank.length; i++) {
 
-        celdasTablerblank[i].removeEventListener("click",handlerTableroAI);
+        celdasTablerblank[i].removeEventListener("click", handlerTableroAI);
     }
 }
 
 function handlerTableroAI(event) {
-    const celdasTablerblank = document.getElementsByClassName("celda_ai")
 
-    let celdaIndex = event.target.id
-    let fila = parseInt(celdaIndex[0])
-    let columna = parseInt(celdaIndex[1])
-    let juegaAI=false;
+    if (comprobarGanador()) {
+        desActivarTableroAI()
+    } else {
 
-    if (!listaCeldasAI[fila][columna].agua) {
 
-        listaCeldasAI[fila][columna].tocado=true
-        let celda = celdasTablerblank[fila * 10 + columna];//se multiplica por 10 ya que el tablero es 10x10
-        celda.classList.add("celda_tocada");
-        celda.textContent = "🔥";
-        celda.removeEventListener("click",handlerTableroAI);
+        const celdasTablerblank = document.getElementsByClassName("celda_ai")
 
-         let indexBarcoTocado=obtenerPosicionBarco(listaCeldasAI[fila][columna].nomBarco)
+        let celdaIndex = event.target.id
+        let fila = parseInt(celdaIndex[0])
+        let columna = parseInt(celdaIndex[1])
+        let juegaAI = false;
 
-         console.log(listaCeldasAI[fila][columna].nomBarco)
+        if (!listaCeldasAI[fila][columna].agua) {
 
-         console.log(userListabarcos[indexBarcoTocado])
-        if(comprobarHundimientoBarco(listaBarcosAI[indexBarcoTocado],listaCeldasAI)){
-            userListabarcos[indexBarcoTocado].hundido=true
-            alert("Barco: "+listaCeldasAI[fila][columna].nomBarco+" hundido")
-        }
+            listaCeldasAI[fila][columna].tocado = true
+            let celda = celdasTablerblank[fila * 10 + columna];//se multiplica por 10 ya que el tablero es 10x10
+            celda.classList.add("celda_tocada");
+            celda.textContent = "🔥";
+            celda.removeEventListener("click", handlerTableroAI);
 
-        if(comprobarGanador()){
-            desActivarTableroAI()
-        }
+            let indexBarcoTocado = obtenerPosicionBarco(listaCeldasAI[fila][columna].nomBarco)
 
-    }else{
-        console.log("Solo agua")
-        alert("Solo hay agua. Turno de la AI")
+            if (comprobarHundimientoBarco(listaBarcosAI[indexBarcoTocado], listaCeldasAI)) {
+                listaBarcosAI[indexBarcoTocado].hundido = true
+                alert("Barco: " + listaCeldasAI[fila][columna].nomBarco + " hundido")
 
-        do {
-            juegaAI=turnoDeAI()
 
-        } while (juegaAI);
+            }
 
-         if(comprobarGanador()){
-            desActivarTableroAI()
+
+        } else {
+            //alert("Solo hay agua. Turno de la AI")
+            let celda = celdasTablerblank[fila * 10 + columna];//se multiplica por 10 ya que el tablero es 10x10
+            celda.classList.add("agua")
+            celda.textContent = "🌊";
+
+
+            do {
+                juegaAI = turnoDeAI()
+
+            } while (juegaAI);
+
         }
     }
 
 }
 
-function turnoDeAI(){
-    
-    let acertado = false;
+function turnoDeAI() {
 
-    // Elegir una celda aleatoria
-    let fila = Math.floor(Math.random() * 10);
-    let columna = Math.floor(Math.random() * 10);
-
-    let celda = userListaceldas[fila][columna];
-    //console.log(celda)
-
-    if (celda.agua == true && celda.tocado==false) {
-
-        const mensajeJuegaDeNuevo=setTimeout(()=>alert("IA disparó al agua. Es tu turno"), 1000);
-
-        mensajeJuegaDeNuevo
-        const celdaHTML = document.getElementById(`${fila}` + `${columna}`).classList.add("celda_tocada")
+    if (comprobarGanador()) {
+        desActivarTableroAI()
 
     } else {
-        celda.tocado = true;
-        acertado = true
-        const celdaHTML = document.getElementById(`${fila}` + `${columna}`); 
-        const alertTimeOut=setTimeout(()=>alert("IA impactó un barco!. La AI juega de nuevo"),1000);
-        alertTimeOut
 
-        celdaHTML.classList.add("celda_tocada");
-        celdaHTML.textContent="🔥";
+        let acertado = false;
 
-         let indexBarcoTocado=obtenerPosicionBarco(celda.nomBarco)
-         console.log(celda.nomBarco)
-        if(comprobarHundimientoBarco(userListabarcos[indexBarcoTocado],userListaceldas)){
-            userListabarcos[indexBarcoTocado].hundido=true
-            alert("Barco: "+celda.nomBarco+" hundido")
+        // Elegir una celda aleatoria
+        let fila = Math.floor(Math.random() * 10);
+        let columna = Math.floor(Math.random() * 10);
 
+        let celda = userListaceldas[fila][columna];
+        //console.log(celda)
+
+        if (celda.agua == true && celda.tocado == false) {
+
+            //const mensajeJuegaDeNuevo = setTimeout(() => alert("IA disparó al agua. Es tu turno"), 1000);
+
+            //mensajeJuegaDeNuevo
+            const celdaHTML = document.getElementById(`${fila}` + `${columna}`)
+            celdaHTML.classList.add("agua")
+            celdaHTML.textContent = "🌊";
+
+        } else {
+            celda.tocado = true;
+            acertado = true
+            const celdaHTML = document.getElementById(`${fila}` + `${columna}`);
+            //const alertTimeOut = setTimeout(() => alert("IA impactó un barco!. La AI juega de nuevo"), 1000);
+            //alertTimeOut
+
+            celdaHTML.classList.add("celda_tocada");
+            celdaHTML.textContent = "🔥";
+
+            let indexBarcoTocado = obtenerPosicionBarco(celda.nomBarco)
+            console.log(celda.nomBarco)
+            console.log(userListabarcos[indexBarcoTocado])
+            if (comprobarHundimientoBarco(userListabarcos[indexBarcoTocado], userListaceldas)) {
+                userListabarcos[indexBarcoTocado].hundido = true
+                alert("Barco: " + celda.nomBarco + " hundido")
+
+            }
         }
-    }
 
-    return acertado
+        return acertado
+    }
 }
 
-function comprobarGanador(){
-    const userGanador=userListabarcos.every(barco=>{
-        if(barco.hundido==true){
+function comprobarGanador() {
+    const userPerdedor = userListabarcos.every(barco => {
+        if (barco.hundido == true) {
             return true
-        }else{
+        } else {
             return false
         }
     })
-    const aiGanador=listaBarcosAI.every(barco=>{
-        if(barco.hundido==true){
+    const aiPerdedor = listaBarcosAI.every(barco => {
+        if (barco.hundido == true) {
             return true
-        }else{
+        } else {
             return false
         }
     })
 
-    if(userGanador){
+    if (userPerdedor) {
+        alert("Has Perdido")
+    } else if (aiPerdedor) {
         alert("Has ganado")
-        juegoTerminado=true
-    }else if(aiGanador){
-        alert("La ai ha ganado")
-        juegoTerminado=true
+
+    }
+
+    if (!userPerdedor && !aiPerdedor) {
+        return false
+    } else {
+        return true
     }
 }
 
@@ -259,30 +276,31 @@ function visualizarBarcosUser(event) {
     let columna = parseInt(celdaIndex[1])
 
     const barcoIndex = obtenerPosicionBarco(barcoName)//Obtengo el index del barco dentro del array de barcos.
+    if (tableroUser.colorcarBarcoUser(columna, fila, direccion, barcoIndex)) {
 
-    if (!todosColocados()) {
-        if (tableroUser.colorcarBarcoUser(columna, fila, direccion, barcoIndex)) {
+        for (let filaIndex = 0; filaIndex < userListaceldas.length; filaIndex++) {
 
-            for (let filaIndex = 0; filaIndex < userListaceldas.length; filaIndex++) {
+            for (let columnaIndex = 0; columnaIndex < userListaceldas
+            [filaIndex].length; columnaIndex++) {
 
-                for (let columnaIndex = 0; columnaIndex < userListaceldas
-                [filaIndex].length; columnaIndex++) {
+                if (!userListaceldas[filaIndex][columnaIndex].agua) {
 
-                    if (!userListaceldas[filaIndex][columnaIndex].agua) {
-
-                        let celda = listaCeldashtml[filaIndex * 10 + columnaIndex];//se multiplica por 10 ya que el tablero es 10x10
-                        celda.classList.add("celdaUserOcu");
-                        celda.textContent = "🚢";
-                    }
+                    let celda = listaCeldashtml[filaIndex * 10 + columnaIndex];//se multiplica por 10 ya que el tablero es 10x10
+                    celda.classList.add("celdaUserOcu");
+                    celda.textContent = "🚢";
                 }
             }
-        } else {
-            alert("Error. Este barco ya esta colocado no esta posición no esta disponible")
         }
     } else {
-        alert("Todos los barcos ya estan colocados")
+        alert("Error. Este barco ya esta colocado no esta posición no esta disponible")
+    }
+
+    if (todosColocados()) {
+        alert("Empienza el juego")
+        activarTableroAi()
         desactivarBotones()
     }
+
 }
 
 //función que comprueba si todos los barcos estan colocados
@@ -295,6 +313,7 @@ function todosColocados() {
             return false
         }
     })
+
     return colocados
 }
 
@@ -313,34 +332,32 @@ function obtenerPosicionBarco(nomBarco) {
 
 
 function comprobarHundimientoBarco(barco, listaCeldas) {
-        // Recorro las posiciones del barco y miro si las celdas en la que esta ha sido tocado.
-        let celdasTocadas=0;
+    // Recorro las posiciones del barco y miro si las celdas en la que esta ha sido tocado.
+    let celdasTocadas = 0;
 
-        for (let i = 0; i < barco.posiciones.length; i++) {
+    for (let i = 0; i < barco.posiciones.length; i++) {
 
-            let pos = barco.posiciones[i];
-            let fila = pos[0];
-            let columna = pos[1];
-            let celda = listaCeldas[fila][columna];
+        let pos = barco.posiciones[i];
+        let fila = pos[0];
+        let columna = pos[1];
+        let celda = listaCeldas[fila][columna];
 
-            if (celda.tocado==true) {
-                 celdasTocadas+=1//por cada celda tocada se incrementa
+        if (celda.tocado == true) {
+            celdasTocadas += 1//por cada celda tocada se incrementa
 
-            }else{
-                console.log("celda no tocada")
-            }
-        }
-
-        if(celdasTocadas==barco.posiciones.length){//si el número de celdas es igual al tamaño del array qur guarda las posciones el barco esta hundido
-            return true
-        }else{
-            return false
         }
     }
 
+    if (celdasTocadas == barco.posiciones.length) {//si el número de celdas es igual al tamaño del array qur guarda las posciones el barco esta hundido
+        return true
+    } else {
+        return false
+    }
+}
+
 function empezarJuego() {
     activarTableroUser()
- activarTableroAi() 
+
 
 
 

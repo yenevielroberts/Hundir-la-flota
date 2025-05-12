@@ -55,8 +55,8 @@ export class TableroUser {
 
                         this.#celdasUser[posY][posX].agua = false;//la celda es esa posición estara ocupada
                         this.#celdasUser[posY][posX].posicion.push([posY, posX])//guarda la posicion de esa celda
-                         this.#celdasUser[posX][posY].nomBarco = objetoBarco.nombre
-                         this.#celdasUser[posX][posY].sizeBarco = objetoBarco.tamano
+                         this.#celdasUser[posY][posX].nomBarco = objetoBarco.nombre
+                         this.#celdasUser[posY][posX].sizeBarco = objetoBarco.tamano
                          
                         objetoBarco.posiciones.push([posY, posX])
 
@@ -87,7 +87,6 @@ export class TableroUser {
             console.log("Este barco ya esta colocado")
         }
 
-        console.log(colocado)
         return colocado
     }
 
