@@ -254,6 +254,7 @@ function desactivarBotones() {
     const btnCrucero = document.getElementById("Crucero").removeEventListener("click", handlerBtnsBarcos)
     const btnSubmarino = document.getElementById("Submarino").removeEventListener("click", handlerBtnsBarcos)
     const btnDestructor = document.getElementById("Destructor").removeEventListener("click", handlerBtnsBarcos)
+    const btnAleatorio = document.getElementById("aleatorio").removeEventListener("click", colocarbarcosUserAleatorio);
     for (let x = 0; x < listaCeldasUser.length; x++) {
 
         listaCeldasUser[x].removeEventListener("click", visualizarBarcosUser)
