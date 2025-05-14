@@ -176,7 +176,6 @@ export class TableroUser {
                     }
                     barco.colocado=true
                     colocado = true
-                    console.log(barco)
                 }
             }
 

@@ -2,9 +2,16 @@
  * CONEXIÓN A API
  */
 
-async function guardarPartida(nombreJugador, tableroJugador, tableroIA) {
+import { tableroIA } from "../script.js";
+import { tableroJugador } from "../script.js";
+
+async function guardarPartida(nombreJugador, tableroJugador, tableroIA, idPartida) {
     const partida = {
-//DEBES DEFINIR AQUí LO QUE QUIERAS QUE TENGAS QUE GUARDAR
+        //DEBES DEFINIR AQUí LO QUE QUIERAS QUE TENGAS QUE GUARDAR
+        id: idPartida,
+        jugador: nombreJugador,
+        tableroJugador: tableroJugador,
+        tableroIA: tableroIA
     };
 
     try {
@@ -33,7 +40,7 @@ async function cargarPartida(idPartida) {
         if (!response.ok) throw new Error("No se encontró la partida");
 
         const data = await response.json();
-        console.log("Partida cargada:", data);
+        //console.log("Partida cargada:", data);
         return data;
     } catch (err) {
         console.error("Error:", err);
@@ -41,7 +48,9 @@ async function cargarPartida(idPartida) {
 }
 
 document.getElementById("btnGuardar").addEventListener("click", () => {
+    console.log("dentro del eventlistner")
     const nombreJugador = prompt("Introduce tu nombre:");
+
     //DEFINE AQUI LO QUE QUIERAS, PUEDES AÑADIR MAS PARAMETROS
     guardarPartida(nombreJugador, tableroJugador, tableroIA);
 });
@@ -50,7 +59,40 @@ document.getElementById("btnCargar").addEventListener("click", async () => {
     const id = prompt("Introduce el ID de la partida:");
     const partida = await cargarPartida(id);
     // Llamamos a la función que recupera los tableros 
-    
+
     // PROGRAMAR
     recuperaTablerosApi(partida);
 });
+
+function recuperaTablerosApi(partida) {
+
+    const celdasHTML = document.getElementsByClassName("celda_ai");
+    const tableroAI = JSON.parse(partida.tableroIA)
+    const tableroJugador = JSON.parse(partida.tableroJugador)
+    const tamano = tableroAI.tamaño
+    const casillasAI = tableroAI["casillas"]
+
+    console.log(tableroAI)
+    console.log(tableroAI["casillas"])
+
+    for (let x = 0; x < casillasAI.length; x++) {
+        for (let i = 0; i < casillasAI[x].length; i++) {
+
+            console.log(casillasAI[x][i])
+            let casillArray = casillasAI[x][i];
+            let fila = casillArray.x;
+            let columna = casillArray.y;
+            let celda = celdasHTML[fila * 10 + columna];
+
+            if (casillArray.ocupada == true) {
+
+                celda.classList.add("celda_ocupada")
+                celda.textContent="H";
+
+            } else if (casillArray.impactada==true){
+                celda.textContent="🔥";
+            }
+                console.log(casillArray.impactada)
+        }
+    }
+}

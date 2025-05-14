@@ -10,18 +10,18 @@ const barcosJson = `[
 ]`
 
 
-const tableroAi = new TableroAi()
-tableroAi.guardarBarcos(barcosJson)
-tableroAi.generarTablero()
-tableroAi.posicionarBarcos()
-const listaCeldasAI = tableroAi.listaCeldas
-const listaBarcosAI = tableroAi.listaBarcos
+export const tableroIA = new TableroAi()
+tableroIA.guardarBarcos(barcosJson)
+tableroIA.generarTablero()
+tableroIA.posicionarBarcos()
+const listaCeldasAI = tableroIA.listaCeldas
+const listaBarcosAI = tableroIA.listaBarcos
 
-const tableroUser = new TableroUser()
-tableroUser.guardarBarcosUser(barcosJson)
-tableroUser.generarTableroUser()
-const userListabarcos = tableroUser.listaBarcos
-const userListaceldas = tableroUser.celdasUser
+export const tableroJugador = new TableroUser()
+tableroJugador.guardarBarcosUser(barcosJson)
+tableroJugador.generarTableroUser()
+const userListabarcos = tableroJugador.listaBarcos
+const userListaceldas = tableroJugador.celdasUser
 
 let userGanador = false;
 let barcoName = "";
@@ -172,8 +172,6 @@ function turnoDeAI() {
             celdaHTML.textContent = "🔥";
 
             let indexBarcoTocado = obtenerPosicionBarco(celda.nomBarco)
-            console.log(celda.nomBarco)
-            console.log(userListabarcos[indexBarcoTocado])
             if (comprobarHundimientoBarco(userListabarcos[indexBarcoTocado], userListaceldas)) {
                 userListabarcos[indexBarcoTocado].hundido = true
                 alert("Barco: " + celda.nomBarco + " hundido")
@@ -219,15 +217,18 @@ function comprobarGanador() {
         return false
     } else {
         const btnNuevaPartida = document.getElementById("btnNuevaPartida");
-        const btnGuardarPartida=document.getElementById("btnGuardar");
+        //const btnGuardarPartida=document.getElementById("btnGuardar");
         btnNuevaPartida.disabled = false;
         btnNuevaPartida.style.display = "block";
         btnGuardarPartida.disabled=false;
-        btnGuardarPartida.style.display="blobk";
+        btnGuardarPartida.style.display="block";
 
+        
         btnNuevaPartida.addEventListener("click", () => {
             location.reload();
         })
+
+        
         return true
     }
 }
@@ -298,7 +299,7 @@ function visualizarBarcosUser(event) {
     let columna = parseInt(celdaIndex[1])
 
     const barcoIndex = obtenerPosicionBarco(barcoName)//Obtengo el index del barco dentro del array de barcos.
-    if (tableroUser.colorcarBarcoUser(columna, fila, direccion, barcoIndex)) {
+    if (tableroJugador.colorcarBarcoUser(columna, fila, direccion, barcoIndex)) {
 
         for (let filaIndex = 0; filaIndex < userListaceldas.length; filaIndex++) {
 
@@ -328,7 +329,7 @@ function visualizarBarcosUser(event) {
 function colocarbarcosUserAleatorio() {
     desactivarBotones()
 
-    tableroUser.ColocarBarcosAleatorio()
+    tableroJugador.ColocarBarcosAleatorio()
     const listaCeldashtml = document.getElementsByClassName("celda_user");
     for (let filaIndex = 0; filaIndex < userListaceldas.length; filaIndex++) {
 
@@ -402,9 +403,7 @@ function comprobarHundimientoBarco(barco, listaCeldas) {
     }
 }
 
-function guardarPartida(){
-    
-}
+
 vistaTableroAI();
 vistaTableroUser();
 activarTableroUser();
