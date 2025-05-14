@@ -67,32 +67,29 @@ document.getElementById("btnCargar").addEventListener("click", async () => {
 function recuperaTablerosApi(partida) {
 
     const celdasHTML = document.getElementsByClassName("celda_ai");
-    const tableroAI = JSON.parse(partida.tableroIA)
-    const tableroJugador = JSON.parse(partida.tableroJugador)
+    const tableroAI = JSON.parse(partida.tableroIA)//Convierto objecto javascript el json de tableroJugador
     const tamano = tableroAI.tamaño
-    const casillasAI = tableroAI["casillas"]
+    const casillasAI = tableroAI["casillas"]//las casillas del json, es una matrix de objetos
 
-    console.log(tableroAI)
-    console.log(tableroAI["casillas"])
+    const tableroJugador = JSON.parse(partida.tableroJugador)
 
+    //Tablero AI
     for (let x = 0; x < casillasAI.length; x++) {
+
         for (let i = 0; i < casillasAI[x].length; i++) {
 
-            console.log(casillasAI[x][i])
             let casillArray = casillasAI[x][i];
             let fila = casillArray.x;
             let columna = casillArray.y;
             let celda = celdasHTML[fila * 10 + columna];
 
             if (casillArray.ocupada == true) {
-
                 celda.classList.add("celda_ocupada")
-                celda.textContent="H";
+                //celda.textContent = "H";
 
-            } else if (casillArray.impactada==true){
-                celda.textContent="🔥";
+            } else if (casillArray.impactada == true) {
+                celda.textContent = "🔥";
             }
-                console.log(casillArray.impactada)
         }
     }
 }

@@ -67,8 +67,8 @@ function vistaTableroUser() {
     return contenedor_user
 }
 
-//función activa el tablero de la AI
-function activarTableroAi() {
+//función activa el tablero de la AI, que se pueda jugar
+export function activarTableroAi() {
     const celdasTablerblank = document.getElementsByClassName("celda_ai")
 
     for (let i = 0; i < celdasTablerblank.length; i++) {
