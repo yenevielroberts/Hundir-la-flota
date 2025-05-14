@@ -218,6 +218,16 @@ function comprobarGanador() {
     if (!userPerdedor && !aiPerdedor) {
         return false
     } else {
+        const btnNuevaPartida = document.getElementById("btnNuevaPartida");
+        const btnGuardarPartida=document.getElementById("btnGuardar");
+        btnNuevaPartida.disabled = false;
+        btnNuevaPartida.style.display = "block";
+        btnGuardarPartida.disabled=false;
+        btnGuardarPartida.style.display="blobk";
+
+        btnNuevaPartida.addEventListener("click", () => {
+            location.reload();
+        })
         return true
     }
 }
@@ -334,7 +344,7 @@ function colocarbarcosUserAleatorio() {
         }
     }
 
-     if (todosColocados()) {
+    if (todosColocados()) {
         alert("Empienza el juego")
         activarTableroAi()
         desactivarBotones()
@@ -392,7 +402,9 @@ function comprobarHundimientoBarco(barco, listaCeldas) {
     }
 }
 
-
+function guardarPartida(){
+    
+}
 vistaTableroAI();
 vistaTableroUser();
 activarTableroUser();
