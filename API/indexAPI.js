@@ -6,12 +6,14 @@ import { tableroIA } from "../script.js";
 import { tableroJugador } from "../script.js";
 
 async function guardarPartida(nombreJugador, tableroJugador, tableroIA, idPartida) {
+
+
     const partida = {
         //DEBES DEFINIR AQUí LO QUE QUIERAS QUE TENGAS QUE GUARDAR
         id: idPartida,
         jugador: nombreJugador,
-        tableroJugador: tableroJugador,
-        tableroIA: tableroIA
+        tableroJugador: JSON.stringify(tableroJugador),
+        tableroIA: JSON.stringify(tableroIA)
     };
 
     try {
@@ -67,11 +69,12 @@ document.getElementById("btnCargar").addEventListener("click", async () => {
 function recuperaTablerosApi(partida) {
 
     const celdasHTML = document.getElementsByClassName("celda_ai");
-    const tableroAI = JSON.parse(partida.tableroIA)//Convierto objecto javascript el json de tableroJugador
+    const tableroAI = partida.tableroIA//Convierto objecto javascript el json de tableroJugador
+    console.log(tableroAI)
     const tamano = tableroAI.tamaño
-    const casillasAI = tableroAI["casillas"]//las casillas del json, es una matrix de objetos
+    const casillasAI = tableroAI.casillas//las casillas del json, es una matrix de objetos
 
-    const tableroJugador = JSON.parse(partida.tableroJugador)
+    const tableroJugador =partida.tableroJugador
 
     //Tablero AI
     for (let x = 0; x < casillasAI.length; x++) {
@@ -85,7 +88,7 @@ function recuperaTablerosApi(partida) {
 
             if (casillArray.ocupada == true) {
                 celda.classList.add("celda_ocupada")
-                //celda.textContent = "H";
+                celda.textContent = "H";
 
             } else if (casillArray.impactada == true) {
                 celda.textContent = "🔥";

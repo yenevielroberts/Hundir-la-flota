@@ -1,3 +1,4 @@
+
 import { Barco } from "./Barco.js";
 import { Celda } from "./Celda.js";
 
@@ -134,5 +135,13 @@ export class TableroAi {
 
     get listaCeldas(){
         return this.#celdas
+    }
+
+    toJSON(){
+        return {
+            tamano: this.#tamano,
+            casillas:this.#celdas,
+        }
+
     }
 }

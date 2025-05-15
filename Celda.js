@@ -1,16 +1,16 @@
 export class Celda {
     #agua
     #tocado
-    #posicion=[];
+    #posicion = [];
     #nomBarco
     #sizeBarco
 
     constructor() {
         this.#agua = true
         this.#tocado = false
-        this.#posicion=[]
-        this.#nomBarco=""
-        this.#sizeBarco=0
+        this.#posicion = []
+        this.#nomBarco = ""
+        this.#sizeBarco = 0
     }
 
     get agua() {
@@ -26,31 +26,41 @@ export class Celda {
         return this.#tocado
     }
 
-    get posicion(){
+    get posicion() {
         return this.#posicion
     }
 
-    get nomBarco(){
+    get nomBarco() {
         return this.#nomBarco
     }
 
-    get sizeBarco(){
+    get sizeBarco() {
         return this.#sizeBarco
     }
-    set sizeBarco(valor){
-        this.#sizeBarco=valor
+    set sizeBarco(valor) {
+        this.#sizeBarco = valor
     }
 
-    set nomBarco(valor){
-        this.#nomBarco=valor
+    set nomBarco(valor) {
+        this.#nomBarco = valor
     }
-    set posicion(valor){
+    set posicion(valor) {
 
-        this.#posicion=valor
+        this.#posicion = valor
     }
 
     set tocado(valor) {
 
         this.#tocado = valor
+    }
+
+    toJSON() {
+        return {
+            ocupada:this.#agua,
+            impactada:this.#tocado,
+            X:this.#posicion[0],
+            nombreBarco:this.#nomBarco,
+            tamaño:this.#sizeBarco
+        }
     }
 }

@@ -23,6 +23,7 @@ tableroJugador.generarTableroUser()
 const userListabarcos = tableroJugador.listaBarcos
 const userListaceldas = tableroJugador.celdasUser
 
+ console.log(JSON.stringify(tableroIA))
 let userGanador = false;
 let barcoName = "";
 let direccion = '';
@@ -404,6 +405,9 @@ function comprobarHundimientoBarco(barco, listaCeldas) {
 }
 
 
+function empezarPartida(){
+
+}
 vistaTableroAI();
 vistaTableroUser();
 activarTableroUser();
