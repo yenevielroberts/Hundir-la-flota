@@ -1,5 +1,5 @@
-import { TableroAi } from "./TableroAi.js";
-import { TableroUser } from "./TableroUser.js";
+import { Tablero } from "./Tablero.js";
+
 
 const barcosJson = `[
     { "name": "Portaaviones", "size": 5 },
@@ -10,63 +10,53 @@ const barcosJson = `[
 ]`
 
 
-export const tableroIA = new TableroAi()
+const tableroIA = new Tablero()
 tableroIA.guardarBarcos(barcosJson)
 tableroIA.generarTablero()
-tableroIA.posicionarBarcos()
+tableroIA.colocarBarcos()
 const listaCeldasAI = tableroIA.listaCeldas
 const listaBarcosAI = tableroIA.listaBarcos
 
-export const tableroJugador = new TableroUser()
-tableroJugador.guardarBarcosUser(barcosJson)
-tableroJugador.generarTableroUser()
+const tableroJugador = new Tablero()
+tableroJugador.guardarBarcos(barcosJson)
+tableroJugador.generarTablero()
 const userListabarcos = tableroJugador.listaBarcos
 const userListaceldas = tableroJugador.celdasUser
 
- console.log(JSON.stringify(tableroIA))
-let userGanador = false;
+
 let barcoName = "";
 let direccion = '';
 
-function vistaTableroAI() {
+function vistaTableros() {
     const contenedor = document.getElementById('contenedor_ai');
+    const contenedor_user = document.getElementById('contenedor_user');
 
     for (let i = 0; i < 10; i++) {
 
         for (let x = 0; x < 10; x++) {
             let celdaPosicion = `${i}` + `${x}`;
 
-            let celda = document.createElement('div')
-            celda.setAttribute("class", "celda_ai")
-            celda.setAttribute("id", celdaPosicion)
+            let celdaIA = document.createElement('div')
+            celdaIA.setAttribute("class", "celda_ai")
+            celdaIA.setAttribute("id", celdaPosicion)
+
+            let celdaUser = document.createElement('div');
+            celdaUser.setAttribute("class", "celda_user");
+            celdaUser.setAttribute("id", celdaPosicion);
+            
 
             if (listaCeldasAI[i][x].agua == false) {
                 //la celda es esa posición estara ocupada
-                celda.classList.add("celdaOcupada");
+                celdaIA.classList.add("celdaOcupada");
             }
-            contenedor.appendChild(celda)
+            contenedor.appendChild(celdaIA);
+            contenedor_user.appendChild(celdaUser);
         }
     }
-    return contenedor
+    //return contenedor
 }
 
 
-function vistaTableroUser() {
-    const contenedor_user = document.getElementById('contenedor_user');
-
-    for (let i = 0; i < 10; i++) {
-
-        for (let x = 0; x < 10; x++) {
-            let posicionCelda = `${i}` + `${x}`;
-
-            let celda = document.createElement('div');
-            celda.setAttribute("class", "celda_user");
-            celda.setAttribute("id", posicionCelda);
-            contenedor_user.appendChild(celda);
-        }
-    }
-    return contenedor_user
-}
 
 //función activa el tablero de la AI, que se pueda jugar
 export function activarTableroAi() {
@@ -126,7 +116,7 @@ function visualizarBarcosUser(event) {
     let columna = parseInt(celdaIndex[1])
 
     const barcoIndex = obtenerPosicionBarco(barcoName)//Obtengo el index del barco dentro del array de barcos.
-    if (tableroJugador.colorcarBarcoUser(columna, fila, direccion, barcoIndex)) {
+    if (tableroJugador.colorcarBarco(columna, fila, direccion, barcoIndex)) {
 
         for (let filaIndex = 0; filaIndex < userListaceldas.length; filaIndex++) {
 
@@ -390,7 +380,7 @@ function comprobarGanador() {
         return false
     } else {
         const btnNuevaPartida = document.getElementById("btnNuevaPartida");
-        //const btnGuardarPartida=document.getElementById("btnGuardar");
+        const btnGuardarPartida=document.getElementById("btnGuardar");
         btnNuevaPartida.disabled = false;
         btnNuevaPartida.style.display = "block";
         btnGuardarPartida.disabled=false;
@@ -409,9 +399,104 @@ function comprobarGanador() {
 function empezarPartida(){
 
 }
-vistaTableroAI();
-vistaTableroUser();
+vistaTableros();
 activarTableroUser();
+
+
+
+//////////
+async function guardarPartida(nombreJugador, tableroJugador, tableroIA, idPartida) {
+
+
+    const partida = {
+        //DEBES DEFINIR AQUí LO QUE QUIERAS QUE TENGAS QUE GUARDAR
+        id: idPartida,
+        jugador: nombreJugador,
+        tableroJugador: JSON.stringify(tableroJugador),
+        tableroIA: JSON.stringify(tableroIA)
+    };
+
+    try {
+        const response = await fetch("http://localhost:3000/partidas", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(partida)
+        });
+
+        if (!response.ok) throw new Error("Error al guardar la partida");
+
+        const data = await response.json();
+        console.log("Partida guardada con éxito:", data);
+        return data.id; // ID de la partida
+    } catch (err) {
+        console.error("Error:", err);
+    }
+}
+
+
+async function cargarPartida(idPartida) {
+    try {
+        const response = await fetch(`http://localhost:3000/partidas/${idPartida}`);
+        if (!response.ok) throw new Error("No se encontró la partida");
+
+        const data = await response.json();
+        //console.log("Partida cargada:", data);
+        return data;
+    } catch (err) {
+        console.error("Error:", err);
+    }
+}
+
+document.getElementById("btnGuardar").addEventListener("click", () => {
+    console.log("dentro del eventlistner")
+    const nombreJugador = prompt("Introduce tu nombre:");
+
+    //DEFINE AQUI LO QUE QUIERAS, PUEDES AÑADIR MAS PARAMETROS
+    guardarPartida(nombreJugador, tableroJugador, tableroIA);
+});
+
+document.getElementById("btnCargar").addEventListener("click", async () => {
+    const id = prompt("Introduce el ID de la partida:");
+    const partida = await cargarPartida(id);
+    // Llamamos a la función que recupera los tableros 
+
+    // PROGRAMAR
+    recuperaTablerosApi(partida);
+});
+
+function recuperaTablerosApi(partida) {
+
+    const celdasHTML = document.getElementsByClassName("celda_ai");
+    tableroIA.cargaDeJson(partida.tableroIA)//Convierto objecto javascript el json de tableroJugador
+    console.log(tableroIA)
+    const tamano = tableroIA.tamaño
+    const casillasAI = tableroIA.casillas//las casillas del json, es una matrix de objetos
+
+    const tableroJugador =partida.tableroJugador
+
+    //Tablero AI
+    for (let x = 0; x < casillasAI.length; x++) {
+
+        for (let i = 0; i < casillasAI[x].length; i++) {
+
+            let casillArray = casillasAI[x][i];
+            let fila = casillArray.x;
+            let columna = casillArray.y;
+            let celda = celdasHTML[fila * 10 + columna];
+
+            if (casillArray.ocupada == true) {
+                celda.classList.add("celda_ocupada")
+                celda.textContent = "H";
+
+            } else if (casillArray.impactada == true) {
+                celda.textContent = "🔥";
+            }
+        }
+    }
+}
+
 
 
 

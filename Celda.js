@@ -54,14 +54,11 @@ export class Celda {
         this.#tocado = valor
     }
 
-    toJSON() {
-        return {
-            ocupada:this.#agua,
-            impactada:this.#tocado,
-            X:this.#posicion[0],
-            Y:this.#posicion[1],
-            nombreBarco:this.#nomBarco,
-            tamaño:this.#sizeBarco
-        }
+    cargaDeJson(celdaInfo){
+        this.#agua = celdaInfo.agua
+        this.#tocado = celdaInfo.tocad
+        this.#posicion = []
+        this.#nomBarco = ""
+        this.#sizeBarco = 0
     }
 }
