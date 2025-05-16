@@ -59,6 +59,7 @@ export class Celda {
             ocupada:this.#agua,
             impactada:this.#tocado,
             X:this.#posicion[0],
+            Y:this.#posicion[1],
             nombreBarco:this.#nomBarco,
             tamaño:this.#sizeBarco
         }
