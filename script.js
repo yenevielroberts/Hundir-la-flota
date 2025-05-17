@@ -160,7 +160,7 @@ function handlerTableroAI(event) {
 
         if (!listaCeldasIA[fila][columna].agua) {
 
-            listaCeldasIA[fila][columna].tocado = true
+            listaCeldasIA[fila][columna].tocado = "barco"
             let celda = celdasTablerblank[fila * 10 + columna];//se multiplica por 10 ya que el tablero es 10x10
             celda.classList.add("celda_tocada");
             celda.textContent = "🔥";
@@ -177,6 +177,7 @@ function handlerTableroAI(event) {
 
 
         } else {
+            listaCeldasIA[fila][columna].tocado = "agua"
             //alert("Solo hay agua. Turno de la AI")
             let celda = celdasTablerblank[fila * 10 + columna];//se multiplica por 10 ya que el tablero es 10x10
             celda.classList.add("agua")
@@ -207,23 +208,20 @@ function turnoDeAI() {
         let columna = Math.floor(Math.random() * 10);
 
         let celda = userListaceldas[fila][columna];
-        //console.log(celda)
+        console.log(celda)
 
-        if (celda.agua == true && celda.tocado == false) {
-
-            //const mensajeJuegaDeNuevo = setTimeout(() => alert("IA disparó al agua. Es tu turno"), 1000);
+        if (celda.agua == true && celda.tocado == "") {
+            celda.tocado="agua";
 
             //mensajeJuegaDeNuevo
             const celdaHTML = document.getElementById(`${fila}` + `${columna}`)
             celdaHTML.classList.add("agua")
             celdaHTML.textContent = "🌊";
 
-        } else {
-            celda.tocado = true;
+        } else if(celda.agua==false) {
+            celda.tocado ="barco";
             acertado = true
             const celdaHTML = document.getElementById(`${fila}` + `${columna}`);
-            //const alertTimeOut = setTimeout(() => alert("IA impactó un barco!. La AI juega de nuevo"), 1000);
-            //alertTimeOut
 
             celdaHTML.classList.add("celda_tocada");
             celdaHTML.textContent = "🔥";
@@ -469,32 +467,52 @@ document.getElementById("btnCargar").addEventListener("click", async () => {
 
 function recuperaTablerosApi(partida) {
 
+    const celdasUserHTML = document.getElementsByClassName("celda_user");
+    const iaCeldasHTML = document.getElementsByClassName("celda_ai");
+
     tableroIA.cargaDeJson(partida.tableroIA)//Convierto objecto javascript el json de tableroJugador
     console.log(tableroIA)
     tableroJugador.cargaDeJson(partida.tableroJugador)
+    console.log(tableroJugador)
 
-    //Tablero AI
-    /*for (let x = 0; x < casillasAI.length; x++) {
+    //Tablero Jugador
+    for (let fila = 0; fila < userListaceldas.length; fila++) {
 
-        for (let i = 0; i < casillasAI[x].length; i++) {
+        for (let columna = 0; columna < userListaceldas[fila].length; columna++) {
 
-            let casillArray = casillasAI[x][i];
-            let fila = casillArray.x;
-            let columna = casillArray.y;
-            let celda = celdasHTML[fila * 10 + columna];
+            //User
+            let casillasUser = userListaceldas[fila][columna];
+            let celdaUser = celdasUserHTML[fila * 10 + columna];
 
-            if (casillArray.ocupada == true) {
-                celda.classList.add("celda_ocupada")
-                celda.textContent = "H";
+            //IA
+            let casillasIa=listaCeldasIA[fila][columna];
+            let celdasIa=iaCeldasHTML[fila * 10 +columna];
 
-            } else if (casillArray.impactada == true) {
-                celda.textContent = "🔥";
+            if (casillasUser.agua == false && casillasUser.tocado=="") {
+                celdaUser.classList.add("celdaUserOcu")
+                celdaUser.textContent = "🚢";
+
+            } else if (casillasUser.tocado =="barco" || casillasIa.tocado=="barco") {
+                celdaUser.classList.add("celda_tocada");
+                celdaUser.textContent = "🔥";
+
+                //IA
+                celdasIa.classList.add("celda_tocada");
+                celdasIa.textContent = "🔥";
+            }else if(casillasUser.tocado=="agua" || casillasIa.tocado=="agua"){
+                celdaUser.classList.add("agua");
+                celdaUser.textContent = "🌊";
+
+                //Ia
+                celdasIa.classList.add("agua");
+                celdasIa.textContent = "🌊";
             }
         }
-    }*/
+    }
 
-       
-      colocarbarcosUserAleatorio();
+    desactivarBotones()
+    activarTableroAi()
+
 }
 
 

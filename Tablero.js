@@ -244,14 +244,18 @@ export class Tablero {
     }
 
     cargaDeJson(tablero){
-        this.tamaño = tablero.tamano;
-        for (let i = 0; i < this.casillas; i++) {
+        const tableroJson=JSON.parse(tablero)
+        this.tamano = tableroJson.tamano;
+        for (let i = 0; i < tableroJson.casillas.length; i++) {
 
-            this.listaBarcos[i].cargaDeJson(tablero.barcos[i])
 
-            for (let j = 0; j < this.cargaDeJson[i]; j++) {
-                this.casillas[i][j].cargaDeJson(tablero.casillas[i][j])
+            for (let j = 0; j < tableroJson.casillas[i].length; j++) {
+                this.casillas[i][j].cargaDeJson(tableroJson.casillas[i][j])
             }
+        }
+
+        for(let x=0; x<this.listaBarcos.length;x++){
+             this.listaBarcos[x].cargaDeJson(tableroJson.listaBarcos[x])
         }
 
     }

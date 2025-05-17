@@ -1,13 +1,13 @@
 export class Celda {
-    agua
-    tocado
+    agua=true
+    tocado=""
     posicion = [];
-    nomBarco
-    sizeBarco
+    nomBarco=""
+    sizeBarco=0
 
     constructor() {
         this.agua = true
-        this.tocado = false
+        this.tocado = ""
         this.posicion = []
         this.nomBarco = ""
         this.sizeBarco = 0
