@@ -49,10 +49,12 @@ export class Barco {
     }
 
     cargaDeJson(barcoInfo){
+        
         this.nombre=barcoInfo.nombre
         this.tamano=barcoInfo.tamano
         this.colocado=barcoInfo.colocado
         this.hundido=barcoInfo.hundido
+        this.posiciones=barcoInfo.posiciones
 
     }
 

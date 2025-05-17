@@ -332,7 +332,7 @@ function comprobarHundimientoBarco(barco, listaCeldas) {
         let columna = pos[1];
         let celda = listaCeldas[fila][columna];
 
-        if (celda.tocado == true) {
+        if (celda.tocado == "barco") {
             celdasTocadas += 1//por cada celda tocada se incrementa
 
         }
@@ -365,7 +365,6 @@ function comprobarGanador() {
         alert("Has Perdido")
     } else if (aiPerdedor) {
 
-        userGanador = true
         //funcion para mostrar conffeti
         confetti({
             particleCount: 500,
@@ -471,9 +470,9 @@ function recuperaTablerosApi(partida) {
     const iaCeldasHTML = document.getElementsByClassName("celda_ai");
 
     tableroIA.cargaDeJson(partida.tableroIA)//Convierto objecto javascript el json de tableroJugador
-    console.log(tableroIA)
+    //console.log(tableroIA)
     tableroJugador.cargaDeJson(partida.tableroJugador)
-    console.log(tableroJugador)
+    console.log(tableroIA.casillas)
 
     //Tablero Jugador
     for (let fila = 0; fila < userListaceldas.length; fila++) {
@@ -487,26 +486,42 @@ function recuperaTablerosApi(partida) {
             //IA
             let casillasIa=listaCeldasIA[fila][columna];
             let celdasIa=iaCeldasHTML[fila * 10 +columna];
+            celdasIa.classList.remove("celdaOcupada")
+            if (casillasIa.agua == false) {
+                celdasIa.classList.add("celdaOcupada");
+            }
 
             if (casillasUser.agua == false && casillasUser.tocado=="") {
+                //celdasIa.classList.add("celdaOcupada")
                 celdaUser.classList.add("celdaUserOcu")
                 celdaUser.textContent = "🚢";
 
-            } else if (casillasUser.tocado =="barco" || casillasIa.tocado=="barco") {
+            } else if (casillasUser.tocado =="barco") {
+                celdaUser.classList.add("celdaUserOcu")
                 celdaUser.classList.add("celda_tocada");
                 celdaUser.textContent = "🔥";
 
-                //IA
-                celdasIa.classList.add("celda_tocada");
-                celdasIa.textContent = "🔥";
-            }else if(casillasUser.tocado=="agua" || casillasIa.tocado=="agua"){
+                
+            }else if(casillasUser.tocado=="agua"){
                 celdaUser.classList.add("agua");
                 celdaUser.textContent = "🌊";
+
+              
+            }
+
+
+            if(casillasIa.tocado=="agua"){
 
                 //Ia
                 celdasIa.classList.add("agua");
                 celdasIa.textContent = "🌊";
+            }else if(casillasIa.tocado=="barco"){
+                //IA
+                celdasIa.classList.add("celda_tocada");
+                celdasIa.textContent = "🔥";
             }
+
+           
         }
     }
 

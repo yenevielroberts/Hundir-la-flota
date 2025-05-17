@@ -55,6 +55,7 @@ export class Celda {
     }
 
     cargaDeJson(celdaInfo){
+        
         this.agua = celdaInfo.agua
         this.tocado = celdaInfo.tocado
         this.posicion = celdaInfo.posicion
