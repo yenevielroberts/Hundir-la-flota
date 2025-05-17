@@ -89,6 +89,58 @@ export class Tablero {
         })
     }
 
+       colorcarBarcoUser(columna, fila, direccion, barcoIndex) {
+
+        let colocado=true;
+        let objetoBarco = this.listaBarcos[barcoIndex]//obtengo el barco seleccionado por el usuario
+
+        let posX = 0;
+        let posY = 0;
+        if (objetoBarco.colocado == false) {
+
+            if (this.hayEspacio(objetoBarco, direccion, fila, columna)) {
+                for (let x = 0; x < objetoBarco.tamano; x++) {
+
+                    if (direccion == "horizontal") {
+                        posX = (columna) + x
+                        posY = fila
+
+                        this.casillas[posY][posX].agua = false;//la celda es esa posición estara ocupada
+                        this.casillas[posY][posX].posicion.push([posY, posX])//guarda la posicion de esa celda
+                         this.casillas[posY][posX].nomBarco = objetoBarco.nombre
+                         this.casillas[posY][posX].sizeBarco = objetoBarco.tamano
+                         
+                        objetoBarco.posiciones.push([posY, posX])
+
+                    } else if (direccion == "vertical") {
+                        posX = fila + x
+                        posY = columna
+
+                        this.casillas[posX][posY].agua = false;//la celda es esa posición estara ocupada
+
+                        this.casillas[posX][posY].posicion.push([posX, posY])
+                        this.casillas[posX][posY].nomBarco = objetoBarco.nombre
+                        this.casillas[posX][posY].sizeBarco = objetoBarco.tamano
+
+                        objetoBarco.posiciones.push([posX, posY])
+                        
+                    }
+                }
+
+                objetoBarco.colocado = true
+
+            } else {
+                colocado=false
+                console.log("Error. No se puede colocar el barco en esa posición")
+            }
+            
+        } else {
+            colocado=false
+            console.log("Este barco ya esta colocado")
+        }
+
+        return colocado
+    }
 
     ColocarBarcosAleatorio() {
 
@@ -120,19 +172,19 @@ export class Tablero {
 
 
                         if (direccion == "horizontal") {
-                            posx = columna + x//incrementa una celda horizontal
-                            posY = fila
+                            posx = fila + x//incrementa una celda horizontal
+                            posY = columna
                         } else if (direccion == "vertical") {
-                            posY = fila + x
-                            posx = columna
+                            posY = columna + x
+                            posx = fila
                         }
 
-                        this.celdasUser[posY][posx].agua = false;//la celda es esa posición estara ocupada
+                        this.casillas[posY][posx].agua = false;//la celda es esa posición estara ocupada
 
-                        this.celdasUser[posY][posx].posicion.push([posY, posx])//guarda la posicion de esa celda
+                        this.casillas[posY][posx].posicion.push([posY, posx])//guarda la posicion de esa celda
 
-                        this.celdasUser[posY][posx].nomBarco = barco.nombre
-                        this.celdasUser[posY][posx].sizeBarco = barco.tamano
+                        this.casillas[posY][posx].nomBarco = barco.nombre
+                        this.casillas[posY][posx].sizeBarco = barco.tamano
                         barco.posiciones.push([posY, posx])
                         
                     }
@@ -145,7 +197,7 @@ export class Tablero {
     }
 
     //función que controla donde se puede posicionar los barcos en el tablero de la maquina
-    hayEspacio(barco, direccion, posicionX, posicionY) {
+    hayEspacio(barco, direccion, fila, columna) {
 
         let espacioLibre = true;
         //compruebo posiciones dependiendo si la dirección es vertical o horizontal
@@ -157,11 +209,11 @@ export class Tablero {
 
 
             if (direccion == "horizontal") {
-                posx = posicionX + i//incrementa una celda
-                posY = posicionY
+                posx = fila + i//incrementa una celda
+                posY = columna
             } else if (direccion == "vertical") {
-                posY = posicionY + i
-                posx = posicionX
+                posY = columna + i
+                posx = fila
             }
 
             //compruebo que no se salga del rango
@@ -193,12 +245,12 @@ export class Tablero {
 
     cargaDeJson(tablero){
         this.tamaño = tablero.tamano;
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < this.casillas; i++) {
 
-            this.casillas.push([])
+            this.listaBarcos[i].cargaDeJson(tablero.barcos[i])
 
-            for (let j = 0; j < 10; j++) {
-                this.casillas[i][j].cargaDeJson(tablero.celdas[i][j])
+            for (let j = 0; j < this.cargaDeJson[i]; j++) {
+                this.casillas[i][j].cargaDeJson(tablero.casillas[i][j])
             }
         }
 

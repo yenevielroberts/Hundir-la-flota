@@ -1,4 +1,5 @@
 import { Tablero } from "./Tablero.js";
+import { TableroUser } from "./TableroUser.js";
 
 
 const barcosJson = `[
@@ -14,14 +15,14 @@ const tableroIA = new Tablero()
 tableroIA.guardarBarcos(barcosJson)
 tableroIA.generarTablero()
 tableroIA.colocarBarcos()
-const listaCeldasAI = tableroIA.listaCeldas
-const listaBarcosAI = tableroIA.listaBarcos
+const listaCeldasIA = tableroIA.listaCeldas
+const listaBarcosIA = tableroIA.listaBarcos
 
 const tableroJugador = new Tablero()
 tableroJugador.guardarBarcos(barcosJson)
 tableroJugador.generarTablero()
 const userListabarcos = tableroJugador.listaBarcos
-const userListaceldas = tableroJugador.celdasUser
+const userListaceldas = tableroJugador.listaCeldas
 
 
 let barcoName = "";
@@ -45,7 +46,7 @@ function vistaTableros() {
             celdaUser.setAttribute("id", celdaPosicion);
             
 
-            if (listaCeldasAI[i][x].agua == false) {
+            if (listaCeldasIA[i][x].agua == false) {
                 //la celda es esa posición estara ocupada
                 celdaIA.classList.add("celdaOcupada");
             }
@@ -116,7 +117,7 @@ function visualizarBarcosUser(event) {
     let columna = parseInt(celdaIndex[1])
 
     const barcoIndex = obtenerPosicionBarco(barcoName)//Obtengo el index del barco dentro del array de barcos.
-    if (tableroJugador.colorcarBarco(columna, fila, direccion, barcoIndex)) {
+    if (tableroJugador.colorcarBarcoUser(columna, fila, direccion, barcoIndex)) {
 
         for (let filaIndex = 0; filaIndex < userListaceldas.length; filaIndex++) {
 
@@ -157,19 +158,19 @@ function handlerTableroAI(event) {
         let columna = parseInt(celdaIndex[1])
         let juegaAI = false;
 
-        if (!listaCeldasAI[fila][columna].agua) {
+        if (!listaCeldasIA[fila][columna].agua) {
 
-            listaCeldasAI[fila][columna].tocado = true
+            listaCeldasIA[fila][columna].tocado = true
             let celda = celdasTablerblank[fila * 10 + columna];//se multiplica por 10 ya que el tablero es 10x10
             celda.classList.add("celda_tocada");
             celda.textContent = "🔥";
             celda.removeEventListener("click", handlerTableroAI);
 
-            let indexBarcoTocado = obtenerPosicionBarco(listaCeldasAI[fila][columna].nomBarco)
+            let indexBarcoTocado = obtenerPosicionBarco(listaCeldasIA[fila][columna].nomBarco)
 
-            if (comprobarHundimientoBarco(listaBarcosAI[indexBarcoTocado], listaCeldasAI)) {
-                listaBarcosAI[indexBarcoTocado].hundido = true
-                alert("Barco: " + listaCeldasAI[fila][columna].nomBarco + " hundido")
+            if (comprobarHundimientoBarco(listaBarcosIA[indexBarcoTocado], listaCeldasIA)) {
+                listaBarcosIA[indexBarcoTocado].hundido = true
+                alert("Barco: " + listaCeldasIA[fila][columna].nomBarco + " hundido")
 
 
             }
@@ -354,7 +355,7 @@ function comprobarGanador() {
             return false
         }
     })
-    const aiPerdedor = listaBarcosAI.every(barco => {
+    const aiPerdedor = listaBarcosIA.every(barco => {
         if (barco.hundido == true) {
             return true
         } else {
@@ -468,16 +469,12 @@ document.getElementById("btnCargar").addEventListener("click", async () => {
 
 function recuperaTablerosApi(partida) {
 
-    const celdasHTML = document.getElementsByClassName("celda_ai");
     tableroIA.cargaDeJson(partida.tableroIA)//Convierto objecto javascript el json de tableroJugador
     console.log(tableroIA)
-    const tamano = tableroIA.tamaño
-    const casillasAI = tableroIA.casillas//las casillas del json, es una matrix de objetos
-
-    const tableroJugador =partida.tableroJugador
+    tableroJugador.cargaDeJson(partida.tableroJugador)
 
     //Tablero AI
-    for (let x = 0; x < casillasAI.length; x++) {
+    /*for (let x = 0; x < casillasAI.length; x++) {
 
         for (let i = 0; i < casillasAI[x].length; i++) {
 
@@ -494,7 +491,10 @@ function recuperaTablerosApi(partida) {
                 celda.textContent = "🔥";
             }
         }
-    }
+    }*/
+
+       
+      colocarbarcosUserAleatorio();
 }
 
 
