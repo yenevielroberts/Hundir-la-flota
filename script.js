@@ -218,7 +218,7 @@ function turnoDeAI() {
             let indexBarcoTocado = obtenerPosicionBarco(celda.nomBarco)
             if (comprobarHundimientoBarco(userListabarcos[indexBarcoTocado], userListaceldas)) {
                 userListabarcos[indexBarcoTocado].hundido = true
-                alert("LA IA hundió este barco: " + celda.nomBarco)
+                alert("LA IA hundió uno de tus barcos: " + celda.nomBarco)
             }
         }
 
