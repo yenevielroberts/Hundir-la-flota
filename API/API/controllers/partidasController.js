@@ -23,6 +23,8 @@ export function crearPartida(req, res) {
     const nuevaPartida = {
         id: generarId(),
         jugador: req.body.jugador,
+        ganador: req.body.ganador,
+        estado: req.body.estado,
         tableroJugador: req.body.tableroJugador,
         tableroIA: req.body.tableroIA
     };

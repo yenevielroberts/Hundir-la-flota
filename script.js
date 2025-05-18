@@ -28,7 +28,7 @@ const userListaceldas = tableroJugador.listaCeldas
 let barcoName = "";
 let direccion = '';
 let estadoPartida="";
-let ganador="";
+let ganadorPartida="";
 
 //función que crea la vista del tablero IA y del usuario
 function vistaTableros() {
@@ -147,9 +147,8 @@ function visualizarBarcosUser(event) {
 //event handler del tablero IA
 function handlerTableroAI(event) {
 
-    if (comprobarGanador()) {//compruebo antes si se ha ganado
-        desActivarTableroAI()
-    } else {
+    if (!comprobarGanador()) {//compruebo antes si se ha ganado
+
 
         const celdasTablerblank = document.getElementsByClassName("celda_ai")
 
@@ -184,16 +183,14 @@ function handlerTableroAI(event) {
 
             } while (juegaAI);
         }
+        comprobarGanador()
     }
 }
 
 //Función que lleva acabo las acciones de la IA en el tablero del usuario
 function turnoDeAI() {
 
-    if (comprobarGanador()) {
-        desActivarTableroAI()
-
-    } else {
+    if (!comprobarGanador()) {
 
         let acertado = false;
 
@@ -224,6 +221,8 @@ function turnoDeAI() {
                 alert("Barco: " + celda.nomBarco + " hundido")
             }
         }
+
+        comprobarGanador()
         return acertado
     }
 }
@@ -354,11 +353,11 @@ function comprobarGanador() {
 
     //muestro mensaje según ganador
     if (userPerdedor) {
-        ganador="IA";
+        ganadorPartida="IA";
         alert("Has Perdido")
     } else if (aiPerdedor) {
 
-        ganador="User";
+        ganadorPartida="User";
         //funcion para mostrar conffeti
         confetti({
             particleCount: 500,
@@ -367,16 +366,19 @@ function comprobarGanador() {
         });
     }
 
+    if(ganadorPartida.length>=0){
+        ganadorPartida="No hay ganador aún";
+    }
+
+    console.log(ganadorPartida)
     if (!userPerdedor && !aiPerdedor) {
         estadoPartida="No terminada";
+        console.log(estadoPartida)
         return false
     } else {
-
+        desActivarTableroAI()
         estadoPartida="Terminada";
-        const btnGuardarPartida = document.getElementById("btnGuardar");
-        btnGuardarPartida.disabled = false;
-        btnGuardarPartida.style.display = "block";
-
+        console.log(estadoPartida)
         let nuevaPartida = setTimeout(() => {
             let jugarDeNuevo = confirm("¿Quieres seguir jugando?")
             if (jugarDeNuevo) {
@@ -387,6 +389,8 @@ function comprobarGanador() {
 
         return true
     }
+
+ 
 }
 
 vistaTableros();
@@ -395,16 +399,15 @@ activarTableroUser();
 
 
 //////////
-async function guardarPartida(nombreJugador, tableroJugador, tableroIA, idPartida,estadoPartida,ganador) {
+async function guardarPartida(nombreJugador, tableroJugador, tableroIA,estadoPartida,ganadorPartida) {
 
     const partida = {
         //DEBES DEFINIR AQUí LO QUE QUIERAS QUE TENGAS QUE GUARDAR
-        id: idPartida,
         jugador: nombreJugador,
-        ganador:ganador,
-        estado:estadoPartida,
-        tableroJugador: tableroJugador,
-        tableroIA:tableroIA
+        ganador: ganadorPartida,
+        estado: estadoPartida,
+        tableroJugador: JSON.stringify(tableroJugador),
+        tableroIA: JSON.stringify(tableroIA)
     };
 
     try {
@@ -426,7 +429,6 @@ async function guardarPartida(nombreJugador, tableroJugador, tableroIA, idPartid
     }
 }
 
-
 async function cargarPartida(idPartida) {
     try {
         const response = await fetch(`http://localhost:3000/partidas/${idPartida}`);
@@ -443,13 +445,13 @@ async function cargarPartida(idPartida) {
 
 document.getElementById("btnGuardar").addEventListener("click", () => {
 
+    console.log(estadoPartida, ganadorPartida)
     const nombreJugador = prompt("Introduce tu nombre:");
 
     if (nombreJugador != null) {
         //DEFINE AQUI LO QUE QUIERAS, PUEDES AÑADIR MAS PARAMETROS
-        guardarPartida(nombreJugador, tableroJugador, tableroIA,estadoPartida,ganador);
+        guardarPartida(nombreJugador, tableroJugador, tableroIA,estadoPartida,ganadorPartida);
     }
-
 
 });
 
@@ -473,7 +475,7 @@ document.getElementById("btnHistorial").addEventListener("click",()=>{
 function recuperaTablerosApi(partida) {
 
      console.log(estadoPartida)
-    console.log(ganador)
+    console.log(ganadorPartida)
     const celdasUserHTML = document.getElementsByClassName("celda_user");//array de las celdas(div)html del usuario
     const iaCeldasHTML = document.getElementsByClassName("celda_ai");//array de las celdas(div)html de la IA
 
@@ -490,9 +492,7 @@ function recuperaTablerosApi(partida) {
             let casillasUser = userListaceldas[fila][columna];
             let celdaUser = celdasUserHTML[fila * 10 + columna];
 
-            if (casillasIa.agua == false) {
-                celdasIa.classList.add("celdaOcupada");
-            }
+           
 
             if (casillasUser.agua == false && casillasUser.tocado == "") {
                 celdaUser.classList.add("celdaUserOcu")
@@ -513,6 +513,10 @@ function recuperaTablerosApi(partida) {
             let casillasIa = listaCeldasIA[fila][columna];
             let celdasIa = iaCeldasHTML[fila * 10 + columna];
             celdasIa.classList.remove("celdaOcupada")
+
+             if (casillasIa.agua == false) {
+                celdasIa.classList.add("celdaOcupada");
+            }
 
             if (casillasIa.tocado == "agua") {
                 //Ia

@@ -11,7 +11,7 @@ export class Tablero {
         this.tamano = 10
         this.casillas = []
         this.listaBarcos = []
-    
+
     }
     //genera el tablero de la maquina
     generarTablero() {
@@ -38,8 +38,8 @@ export class Tablero {
         }
     }
 
-     //función que coloca los barcos en el tablero de la maquina
-     colocarBarcos() {
+    //función que coloca los barcos en el tablero de la maquina
+    colocarBarcos() {
 
         this.listaBarcos.forEach(barco => {
 
@@ -59,39 +59,39 @@ export class Tablero {
                 }
 
                 //genero posiciones y dirección
-                let posicionY = Math.floor(Math.random() * 10)
-                let posicionX = Math.floor(Math.random() * 10)
+                let fila = Math.floor(Math.random() * 10)
+                let columna = Math.floor(Math.random() * 10)
 
-                if (this.hayEspacio(barco, direccion, posicionX, posicionY)) {
+                if (this.hayEspacio(barco, direccion, fila, columna)) {
 
                     for (let x = 0; x < barco.tamano; x++) {
 
 
                         if (direccion == "horizontal") {
-                            posx = posicionX + x//incrementa una celda horizontal
-                            posY = posicionY
+                            posx = columna + x//incrementa una celda horizontal
+                            posY = fila
                         } else if (direccion == "vertical") {
-                            posY = posicionY + x
-                            posx = posicionX
+                            posY = fila + x
+                            posx = columna
                         }
 
                         this.casillas[posY][posx].agua = false;//la celda es esa posición estara ocupada
                         this.casillas[posY][posx].posicion.push([posY, posx])//guarda la posicion de esa celda
-                      
-                        this.casillas[posY][posx].nomBarco=barco.nombre
-                        this.casillas[posY][posx].sizeBarco=barco.tamano
+
+                        this.casillas[posY][posx].nomBarco = barco.nombre
+                        this.casillas[posY][posx].sizeBarco = barco.tamano
                         barco.posiciones.push([posY, posx])
                     }
-                    barco.colocado=true
+                    barco.colocado = true
                     colocado = true
                 }
             }
         })
     }
 
-       colorcarBarcoUser(columna, fila, direccion, barcoIndex) {
+    colorcarBarcoUser(columna, fila, direccion, barcoIndex) {
 
-        let colocado=true;
+        let colocado = true;
         let objetoBarco = this.listaBarcos[barcoIndex]//obtengo el barco seleccionado por el usuario
 
         let posX = 0;
@@ -102,14 +102,14 @@ export class Tablero {
                 for (let x = 0; x < objetoBarco.tamano; x++) {
 
                     if (direccion == "horizontal") {
-                        posX = (columna) + x
+                        posX = columna + x
                         posY = fila
 
                         this.casillas[posY][posX].agua = false;//la celda es esa posición estara ocupada
                         this.casillas[posY][posX].posicion.push([posY, posX])//guarda la posicion de esa celda
-                         this.casillas[posY][posX].nomBarco = objetoBarco.nombre
-                         this.casillas[posY][posX].sizeBarco = objetoBarco.tamano
-                         
+                        this.casillas[posY][posX].nomBarco = objetoBarco.nombre
+                        this.casillas[posY][posX].sizeBarco = objetoBarco.tamano
+
                         objetoBarco.posiciones.push([posY, posX])
 
                     } else if (direccion == "vertical") {
@@ -123,19 +123,20 @@ export class Tablero {
                         this.casillas[posX][posY].sizeBarco = objetoBarco.tamano
 
                         objetoBarco.posiciones.push([posX, posY])
-                        
+
                     }
+
                 }
 
                 objetoBarco.colocado = true
 
             } else {
-                colocado=false
+                colocado = false
                 console.log("Error. No se puede colocar el barco en esa posición")
             }
-            
+
         } else {
-            colocado=false
+            colocado = false
             console.log("Este barco ya esta colocado")
         }
 
@@ -172,11 +173,11 @@ export class Tablero {
 
 
                         if (direccion == "horizontal") {
-                            posx = fila + x//incrementa una celda horizontal
-                            posY = columna
+                            posx = columna + x//incrementa una celda horizontal
+                            posY = fila
                         } else if (direccion == "vertical") {
-                            posY = columna + x
-                            posx = fila
+                            posY = fila + x
+                            posx = columna
                         }
 
                         this.casillas[posY][posx].agua = false;//la celda es esa posición estara ocupada
@@ -186,9 +187,9 @@ export class Tablero {
                         this.casillas[posY][posx].nomBarco = barco.nombre
                         this.casillas[posY][posx].sizeBarco = barco.tamano
                         barco.posiciones.push([posY, posx])
-                        
+
                     }
-                    barco.colocado=true
+                    barco.colocado = true
                     colocado = true
                 }
             }
@@ -209,29 +210,28 @@ export class Tablero {
 
 
             if (direccion == "horizontal") {
-                posx = fila + i//incrementa una celda
-                posY = columna
+                posx = columna + i//incrementa una celda
+                posY = fila
             } else if (direccion == "vertical") {
-                posY = columna + i
-                posx = fila
+                posY = fila + i
+                posx = columna
             }
 
             //compruebo que no se salga del rango
             if (posx < 0 || posx >= 10 || posY < 0 || posY >= 10) {//si el valor de posx es menor 0 o mayor al numero de columnas en esa fila se sale del tablero
-
                 espacioLibre = false
-
                 break
             }
-            //console.log(this.#celdas[posY][posx])
 
             if (this.casillas[posY][posx].agua == false) {
                 espacioLibre = false;
                 break;
             }
-        }
-        return espacioLibre
 
+        }
+
+
+        return espacioLibre
     }
 
     get listaBarcos() {
@@ -239,23 +239,23 @@ export class Tablero {
         return this.listaBarcos
     }
 
-    get listaCeldas(){
+    get listaCeldas() {
         return this.casillas
     }
 
-    cargaDeJson(tablero){
-        const tableroJson=JSON.parse(tablero)
-        this.tamano = tableroJson.tamano;
-        for (let i = 0; i < tableroJson.casillas.length; i++) {
+    cargaDeJson(tablero) {
+
+        this.tamano = tablero.tamano;
+        for (let i = 0; i < tablero.casillas.length; i++) {
 
 
-            for (let j = 0; j < tableroJson.casillas[i].length; j++) {
-                this.casillas[i][j].cargaDeJson(tableroJson.casillas[i][j])
+            for (let j = 0; j < tablero.casillas[i].length; j++) {
+                this.casillas[i][j].cargaDeJson(tablero.casillas[i][j])
             }
         }
 
-        for(let x=0; x<this.listaBarcos.length;x++){
-             this.listaBarcos[x].cargaDeJson(tableroJson.listaBarcos[x])
+        for (let x = 0; x < this.listaBarcos.length; x++) {
+            this.listaBarcos[x].cargaDeJson(tablero.listaBarcos[x])
         }
 
     }
