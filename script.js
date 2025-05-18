@@ -402,7 +402,7 @@ async function guardarPartida(nombreJugador, tableroJugador, tableroIA, estadoPa
         //DEBES DEFINIR AQUí LO QUE QUIERAS QUE TENGAS QUE GUARDAR
         jugador: nombreJugador,
         ganador: ganadorPartida,
-        estado: "Incompleta",
+        estado: estadoPartida,
         tableroJugador: JSON.stringify(tableroJugador),
         tableroIA: JSON.stringify(tableroIA)
     };
@@ -479,8 +479,6 @@ function recuperaTablerosApi(partida) {
 
     tableroJugador.cargaDeJson(partida.tableroJugador)
 
-
-    //Tablero Jugador
     for (let fila = 0; fila < userListaceldas.length; fila++) {
 
         for (let columna = 0; columna < userListaceldas[fila].length; columna++) {
@@ -488,8 +486,6 @@ function recuperaTablerosApi(partida) {
             //User
             let casillasUser = userListaceldas[fila][columna];
             let celdaUser = celdasUserHTML[fila * 10 + columna];
-
-
 
             if (casillasUser.agua == false && casillasUser.tocado == "") {
                 celdaUser.classList.add("celdaUserOcu")
