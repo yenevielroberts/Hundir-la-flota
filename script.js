@@ -30,6 +30,7 @@ let direccion = '';
 let estadoPartida="";
 let ganador="";
 
+//función que crea la vista del tablero IA y del usuario
 function vistaTableros() {
     const contenedor = document.getElementById('contenedor_ai');
     const contenedor_user = document.getElementById('contenedor_user');
@@ -37,12 +38,14 @@ function vistaTableros() {
     for (let i = 0; i < 10; i++) {
 
         for (let x = 0; x < 10; x++) {
-            let celdaPosicion = `${i}` + `${x}`;
+            let celdaPosicion = `${i}` + `${x}`;//id de la celda y también posición de la celda dentro del array de celdas
 
+            //IA
             let celdaIA = document.createElement('div')
             celdaIA.setAttribute("class", "celda_ai")
             celdaIA.setAttribute("id", celdaPosicion)
 
+            //User
             let celdaUser = document.createElement('div');
             celdaUser.setAttribute("class", "celda_user");
             celdaUser.setAttribute("id", celdaPosicion);
@@ -56,13 +59,11 @@ function vistaTableros() {
             contenedor_user.appendChild(celdaUser);
         }
     }
-    //return contenedor
 }
 
 
-
-//función activa el tablero de la AI, que se pueda jugar
-export function activarTableroAi() {
+//función activa el tablero de la AI, activa los botones para que se pueda jugar
+function activarTableroAi() {
     const celdasTablerblank = document.getElementsByClassName("celda_ai")
 
     for (let i = 0; i < celdasTablerblank.length; i++) {
@@ -72,20 +73,18 @@ export function activarTableroAi() {
     }
 }
 
+//Función que desactiva todos los botones del tablero IA
 function desActivarTableroAI() {
 
     const celdasTablerblank = document.getElementsByClassName("celda_ai")
     for (let i = 0; i < celdasTablerblank.length; i++) {
-
         celdasTablerblank[i].removeEventListener("click", handlerTableroAI);
     }
 }
 
 
-//activa todos los botones del tablero de usuario
+//Función que activa todos los botones del tablero de usuario
 function activarTableroUser() {
-
-    barcoName = "";
     const listaCeldasUser = document.getElementsByClassName("celda_user");
     //Botones
     const btnHorizontal = document.getElementById("horizontal").addEventListener("click", handlerBtnDireccion);
@@ -99,20 +98,19 @@ function activarTableroUser() {
 
     for (let x = 0; x < listaCeldasUser.length; x++) {
 
-        listaCeldasUser[x].addEventListener("click", visualizarBarcosUser)
+        listaCeldasUser[x].addEventListener("click", visualizarBarcosUser)//Añado el eventListener a cada celdaHTML
     }
 }
 
-//función que muestra los barcos celecionados por el usuario en el tablero
+//función que muestra los barcos selecionados por el usuario en el tablero
 function visualizarBarcosUser(event) {
 
-    const btnAleatorio = document.getElementById("aleatorio").removeEventListener("click", colocarbarcosUserAleatorio);
+    const btnAleatorio = document.getElementById("aleatorio").removeEventListener("click", colocarbarcosUserAleatorio);//si se colocan manualmente los barcos desactivo este botón
 
     if (!barcoName || !direccion) {
         alert("Por favor selecciona un barco y una dirección antes de colocarlo.");
         return;
     }
-
     const listaCeldashtml = document.getElementsByClassName("celda_user");
     let celdaIndex = event.target.id
     let fila = parseInt(celdaIndex[0])
@@ -138,7 +136,7 @@ function visualizarBarcosUser(event) {
         alert("Error. Este barco ya esta colocado no esta posición no esta disponible")
     }
 
-    if (todosColocados()) {
+    if (todosColocados()) {//compruebo si estan todos colocados
         alert("Empienza el juego")
         activarTableroAi()
         desactivarBotones()
@@ -146,16 +144,16 @@ function visualizarBarcosUser(event) {
 
 }
 
+//event handler del tablero IA
 function handlerTableroAI(event) {
 
-    if (comprobarGanador()) {
+    if (comprobarGanador()) {//compruebo antes si se ha ganado
         desActivarTableroAI()
     } else {
 
-
         const celdasTablerblank = document.getElementsByClassName("celda_ai")
 
-        let celdaIndex = event.target.id
+        let celdaIndex = event.target.id//obtengo el id de la celda que a la vez es la posicion dentro del array de celdas
         let fila = parseInt(celdaIndex[0])
         let columna = parseInt(celdaIndex[1])
         let juegaAI = false;
@@ -166,36 +164,30 @@ function handlerTableroAI(event) {
             let celda = celdasTablerblank[fila * 10 + columna];//se multiplica por 10 ya que el tablero es 10x10
             celda.classList.add("celda_tocada");
             celda.textContent = "🔥";
-            celda.removeEventListener("click", handlerTableroAI);
+            celda.removeEventListener("click", handlerTableroAI);//desactivo el event de esta celda para que no se pueda clickar dos veces
 
             let indexBarcoTocado = obtenerPosicionBarco(listaCeldasIA[fila][columna].nomBarco)
 
             if (comprobarHundimientoBarco(listaBarcosIA[indexBarcoTocado], listaCeldasIA)) {
                 listaBarcosIA[indexBarcoTocado].hundido = true
                 alert("Barco: " + listaCeldasIA[fila][columna].nomBarco + " hundido")
-
-
             }
-
-
         } else {
             listaCeldasIA[fila][columna].tocado = "agua"
-            //alert("Solo hay agua. Turno de la AI")
             let celda = celdasTablerblank[fila * 10 + columna];//se multiplica por 10 ya que el tablero es 10x10
             celda.classList.add("agua")
             celda.textContent = "💧";
 
-
+            //miestras la IA acierté sigue jugando
             do {
                 juegaAI = turnoDeAI()
 
             } while (juegaAI);
-
         }
     }
-
 }
 
+//Función que lleva acabo las acciones de la IA en el tablero del usuario
 function turnoDeAI() {
 
     if (comprobarGanador()) {
@@ -209,13 +201,11 @@ function turnoDeAI() {
         let fila = Math.floor(Math.random() * 10);
         let columna = Math.floor(Math.random() * 10);
 
-        let celda = userListaceldas[fila][columna];
-        console.log(celda)
-
+        let celda = userListaceldas[fila][columna];//obtengo la  celda especifica  del array
+  
         if (celda.agua == true && celda.tocado == "") {
             celda.tocado = "agua";
 
-            //mensajeJuegaDeNuevo
             const celdaHTML = document.getElementById(`${fila}` + `${columna}`)
             celdaHTML.classList.add("agua")
             celdaHTML.textContent = "💧";
@@ -232,15 +222,13 @@ function turnoDeAI() {
             if (comprobarHundimientoBarco(userListabarcos[indexBarcoTocado], userListaceldas)) {
                 userListabarcos[indexBarcoTocado].hundido = true
                 alert("Barco: " + celda.nomBarco + " hundido")
-
             }
         }
-
         return acertado
     }
 }
 
-//Desactiva todos los botones del tablero de usuario
+//Desactiva todos los botones del tablero del usuario
 function desactivarBotones() {
     const listaCeldasUser = document.getElementsByClassName("celda_user");
     //Botones
@@ -270,8 +258,9 @@ function handlerBtnsBarcos(event) {
 }
 
 
+//Función que visualiza en el tablero los barcos colocados aleatoriamente
 function colocarbarcosUserAleatorio() {
-    desactivarBotones()
+    desactivarBotones()//desactivo todos los deemás botones para que el usuario no pueda hacer click en ellos
 
     tableroJugador.ColocarBarcosAleatorio()
     const listaCeldashtml = document.getElementsByClassName("celda_user");
@@ -288,11 +277,10 @@ function colocarbarcosUserAleatorio() {
             }
         }
     }
-
+    //Compruebo que este todos colocados
     if (todosColocados()) {
         alert("Empienza el juego")
         activarTableroAi()
-        desactivarBotones()
     }
 }
 //función que comprueba si todos los barcos estan colocados
@@ -309,7 +297,7 @@ function todosColocados() {
     return colocados
 }
 
-/*Función que retorna la posición del barco ()cuyo nombre que se pasa por paramentro) dentro del array */
+/*Función que retorna la posición del barco (cuyo nombre se pasa por paramentro) dentro del array */
 function obtenerPosicionBarco(nomBarco) {
     let index = userListabarcos.findIndex(barco => {
 
@@ -322,32 +310,33 @@ function obtenerPosicionBarco(nomBarco) {
     return index
 }
 
-
+//Función que comprueba si un barco ha sido hundido completamente
 function comprobarHundimientoBarco(barco, listaCeldas) {
     // Recorro las posiciones del barco y miro si las celdas en la que esta ha sido tocado.
     let celdasTocadas = 0;
 
     for (let i = 0; i < barco.posiciones.length; i++) {
 
-        let pos = barco.posiciones[i];
+        let pos = barco.posiciones[i];//obtengo la posicion de una celda
         let fila = pos[0];
         let columna = pos[1];
-        let celda = listaCeldas[fila][columna];
+        let celda = listaCeldas[fila][columna];//obtengo la celda del array
 
         if (celda.tocado == "barco") {
             celdasTocadas += 1//por cada celda tocada se incrementa
-
         }
     }
 
-    if (celdasTocadas == barco.posiciones.length) {//si el número de celdas es igual al tamaño del array qur guarda las posciones el barco esta hundido
+    if (celdasTocadas == barco.posiciones.length) {//si el número de celdas tocadas es igual al tamaño del array que guarda las posciones, el barco esta hundido
         return true
     } else {
         return false
     }
 }
 
+//Función que comprueba el ganador
 function comprobarGanador() {
+    //compruebo si todos los barcos han sido hundidos
     const userPerdedor = userListabarcos.every(barco => {
         if (barco.hundido == true) {
             return true
@@ -363,6 +352,7 @@ function comprobarGanador() {
         }
     })
 
+    //muestro mensaje según ganador
     if (userPerdedor) {
         ganador="IA";
         alert("Has Perdido")
@@ -375,7 +365,6 @@ function comprobarGanador() {
             spread: 70,
             origin: { y: 0.6 },
         });
-
     }
 
     if (!userPerdedor && !aiPerdedor) {
@@ -408,15 +397,14 @@ activarTableroUser();
 //////////
 async function guardarPartida(nombreJugador, tableroJugador, tableroIA, idPartida,estadoPartida,ganador) {
 
-
     const partida = {
         //DEBES DEFINIR AQUí LO QUE QUIERAS QUE TENGAS QUE GUARDAR
         id: idPartida,
         jugador: nombreJugador,
         ganador:ganador,
         estado:estadoPartida,
-        tableroJugador: JSON.stringify(tableroJugador),
-        tableroIA: JSON.stringify(tableroIA)
+        tableroJugador: tableroJugador,
+        tableroIA:tableroIA
     };
 
     try {
@@ -468,7 +456,6 @@ document.getElementById("btnGuardar").addEventListener("click", () => {
 document.getElementById("btnCargar").addEventListener("click", async () => {
     const id = prompt("Introduce el ID de la partida:");
 
-
     if (id != null) {
         const partida = await cargarPartida(id);
         // Llamamos a la función que recupera los tableros 
@@ -478,6 +465,7 @@ document.getElementById("btnCargar").addEventListener("click", async () => {
 
 });
 
+//mostrar historial
 document.getElementById("btnHistorial").addEventListener("click",()=>{
     location.href="historial.html";
 });
@@ -486,13 +474,12 @@ function recuperaTablerosApi(partida) {
 
      console.log(estadoPartida)
     console.log(ganador)
-    const celdasUserHTML = document.getElementsByClassName("celda_user");
-    const iaCeldasHTML = document.getElementsByClassName("celda_ai");
+    const celdasUserHTML = document.getElementsByClassName("celda_user");//array de las celdas(div)html del usuario
+    const iaCeldasHTML = document.getElementsByClassName("celda_ai");//array de las celdas(div)html de la IA
 
     tableroIA.cargaDeJson(partida.tableroIA)//Convierto objecto javascript el json de tableroJugador
-    //console.log(tableroIA)
     tableroJugador.cargaDeJson(partida.tableroJugador)
-    console.log(tableroIA.casillas)
+    
 
     //Tablero Jugador
     for (let fila = 0; fila < userListaceldas.length; fila++) {
@@ -503,16 +490,11 @@ function recuperaTablerosApi(partida) {
             let casillasUser = userListaceldas[fila][columna];
             let celdaUser = celdasUserHTML[fila * 10 + columna];
 
-            //IA
-            let casillasIa = listaCeldasIA[fila][columna];
-            let celdasIa = iaCeldasHTML[fila * 10 + columna];
-            celdasIa.classList.remove("celdaOcupada")
             if (casillasIa.agua == false) {
                 celdasIa.classList.add("celdaOcupada");
             }
 
             if (casillasUser.agua == false && casillasUser.tocado == "") {
-                //celdasIa.classList.add("celdaOcupada")
                 celdaUser.classList.add("celdaUserOcu")
                 celdaUser.textContent = "🚢";
 
@@ -527,6 +509,11 @@ function recuperaTablerosApi(partida) {
             }
 
 
+             //IA
+            let casillasIa = listaCeldasIA[fila][columna];
+            let celdasIa = iaCeldasHTML[fila * 10 + columna];
+            celdasIa.classList.remove("celdaOcupada")
+
             if (casillasIa.tocado == "agua") {
                 //Ia
                 celdasIa.classList.add("agua");
@@ -536,14 +523,11 @@ function recuperaTablerosApi(partida) {
                 celdasIa.classList.add("celda_tocada");
                 celdasIa.textContent = "🔥";
             }
-
-
         }
     }
 
     desactivarBotones()
     activarTableroAi()
-
 }
 
 
