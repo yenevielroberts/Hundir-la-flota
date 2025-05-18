@@ -16,11 +16,11 @@ export class Tablero {
     //genera los tableros
     generarTablero() {
 
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < this.tamano; i++) {
 
             this.casillas.push([])
 
-            for (let x = 0; x < 10; x++) {
+            for (let x = 0; x < this.tamano; x++) {
                 this.casillas[i].push(new Celda())
             }
         }
@@ -242,6 +242,9 @@ export class Tablero {
 
     get listaCeldas() {
         return this.casillas
+    }
+    get tamano(){
+        return this.tamano
     }
 
     //Método que carga el json, los valores del json sobreescribiran los valores iniciales de la partida

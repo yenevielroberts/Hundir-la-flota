@@ -32,12 +32,12 @@ let ganadorPartida = "";
 
 //función que crea la vista del tablero IA y del usuario
 function vistaTableros() {
-    const contenedor = document.getElementById('contenedor_ai');
+    const contenedorIA = document.getElementById('contenedor_ai');
     const contenedor_user = document.getElementById('contenedor_user');
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < tableroJugador.tamano; i++) {
 
-        for (let x = 0; x < 10; x++) {
+        for (let x = 0; x < tableroJugador.tamano; x++) {
             let celdaPosicion = `${i}` + `${x}`;//id de la celda y también posición de la celda dentro del array de celdas
 
             //IA
@@ -55,7 +55,7 @@ function vistaTableros() {
                 //la celda es esa posición estara ocupada
                 celdaIA.classList.add("celdaOcupada");
             }
-            contenedor.appendChild(celdaIA);
+            contenedorIA.appendChild(celdaIA);
             contenedor_user.appendChild(celdaUser);
         }
     }
