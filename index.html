@@ -13,13 +13,15 @@
 
 <body>
     <h1>Hundir la flota 🚢</h1>
-    <p>Instrucciones 📋:</p>
+    <p id="intrucciones">Instrucciones 📋:</p>
     <ol>
         <li>Selecionar el barco</li>
         <li>Seleccionar la dirección</li>
         <li>Seleccionar la celda</li>
         <li>Después que empienza el juego seleciona una celda del tablero AI</li>
         </ul>
+        <p>🔥 => Has tocado un barco  💧 => Has tocado agua</p>
+        <p><strong>Cargar una partida:</strong> Se necesita el <strong>ID </strong>de la partida que se puede ver en el historial</p>
         <p>🎉Gana quien hunda primero todos los barcos del enemigo 🎉</p>
         <div id="container">
             <!--seccion del usuario-->
@@ -39,7 +41,7 @@
                         <button id="vertical">Vertical</button>
                         <button id="aleatorio">Colocar barcos aleatorios</button>
                     </section>
-                    <section id="btnDirección">
+                    <section id="btnPartidas">
                         <button id="btnGuardar">Guardar partida</button>
                         <button id="btnCargar">Cargar una partida</button>
                         <button id="btnHistorial">Ver historial de partidas</button>

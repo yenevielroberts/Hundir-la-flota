@@ -7,12 +7,16 @@ body {
 }
 
 
-h1,#btnBarcos,#btnDirección, h3,h2{
+h1,#btnBarcos,#btnDirección, h3,h2,#histo_instru{
     text-align: center;
     color: #FFFF99; /* amarillo claro */
 }
 
-ul,p{
+#intrucciones{
+    font-size: 30px;
+}
+
+ol,p{
    font-size: large;
     
 }
@@ -68,6 +72,7 @@ button{
     border-radius: 5px;
     padding: 5px;
     margin: 5px;
+    font-size: 15px;
     border: 1px solid #f9f9f1;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -87,7 +92,7 @@ button:hover{
     display: flex;
     flex-direction: column;
     width: 35rem;
-    height: 43rem;
+    height: 47rem;
     justify-content: center;
     align-items: center;
     background-color: #66AACC;
