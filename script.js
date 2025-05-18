@@ -27,6 +27,8 @@ const userListaceldas = tableroJugador.listaCeldas
 
 let barcoName = "";
 let direccion = '';
+let estadoPartida="";
+let ganador="";
 
 function vistaTableros() {
     const contenedor = document.getElementById('contenedor_ai');
@@ -181,7 +183,7 @@ function handlerTableroAI(event) {
             //alert("Solo hay agua. Turno de la AI")
             let celda = celdasTablerblank[fila * 10 + columna];//se multiplica por 10 ya que el tablero es 10x10
             celda.classList.add("agua")
-            celda.textContent = "🌊";
+            celda.textContent = "💧";
 
 
             do {
@@ -216,7 +218,7 @@ function turnoDeAI() {
             //mensajeJuegaDeNuevo
             const celdaHTML = document.getElementById(`${fila}` + `${columna}`)
             celdaHTML.classList.add("agua")
-            celdaHTML.textContent = "🌊";
+            celdaHTML.textContent = "💧";
 
         } else if (celda.agua == false) {
             celda.tocado = "barco";
@@ -362,9 +364,11 @@ function comprobarGanador() {
     })
 
     if (userPerdedor) {
+        ganador="IA";
         alert("Has Perdido")
     } else if (aiPerdedor) {
 
+        ganador="User";
         //funcion para mostrar conffeti
         confetti({
             particleCount: 500,
@@ -375,41 +379,42 @@ function comprobarGanador() {
     }
 
     if (!userPerdedor && !aiPerdedor) {
+        estadoPartida="No terminada";
         return false
     } else {
-        const btnNuevaPartida = document.getElementById("btnNuevaPartida");
+
+        estadoPartida="Terminada";
         const btnGuardarPartida = document.getElementById("btnGuardar");
-        btnNuevaPartida.disabled = false;
-        btnNuevaPartida.style.display = "block";
         btnGuardarPartida.disabled = false;
         btnGuardarPartida.style.display = "block";
 
-
-        btnNuevaPartida.addEventListener("click", () => {
-            location.reload();
-        })
-
+        let nuevaPartida = setTimeout(() => {
+            let jugarDeNuevo = confirm("¿Quieres seguir jugando?")
+            if (jugarDeNuevo) {
+                location.reload();
+            }
+        }, 2000);
+        nuevaPartida
 
         return true
     }
 }
 
-function empezarPartida() {
-
-}
 vistaTableros();
 activarTableroUser();
 
 
 
 //////////
-async function guardarPartida(nombreJugador, tableroJugador, tableroIA, idPartida) {
+async function guardarPartida(nombreJugador, tableroJugador, tableroIA, idPartida,estadoPartida,ganador) {
 
 
     const partida = {
         //DEBES DEFINIR AQUí LO QUE QUIERAS QUE TENGAS QUE GUARDAR
         id: idPartida,
         jugador: nombreJugador,
+        ganador:ganador,
+        estado:estadoPartida,
         tableroJugador: JSON.stringify(tableroJugador),
         tableroIA: JSON.stringify(tableroIA)
     };
@@ -447,13 +452,14 @@ async function cargarPartida(idPartida) {
     }
 }
 
+
 document.getElementById("btnGuardar").addEventListener("click", () => {
-    console.log("dentro del eventlistner")
+
     const nombreJugador = prompt("Introduce tu nombre:");
 
     if (nombreJugador != null) {
         //DEFINE AQUI LO QUE QUIERAS, PUEDES AÑADIR MAS PARAMETROS
-        guardarPartida(nombreJugador, tableroJugador, tableroIA);
+        guardarPartida(nombreJugador, tableroJugador, tableroIA,estadoPartida,ganador);
     }
 
 
@@ -472,8 +478,14 @@ document.getElementById("btnCargar").addEventListener("click", async () => {
 
 });
 
+document.getElementById("btnHistorial").addEventListener("click",()=>{
+    location.href="historial.html";
+});
+
 function recuperaTablerosApi(partida) {
 
+     console.log(estadoPartida)
+    console.log(ganador)
     const celdasUserHTML = document.getElementsByClassName("celda_user");
     const iaCeldasHTML = document.getElementsByClassName("celda_ai");
 
@@ -511,14 +523,14 @@ function recuperaTablerosApi(partida) {
 
             } else if (casillasUser.tocado == "agua") {
                 celdaUser.classList.add("agua");
-                celdaUser.textContent = "🌊";
+                celdaUser.textContent = "💧";
             }
 
 
             if (casillasIa.tocado == "agua") {
                 //Ia
                 celdasIa.classList.add("agua");
-                celdasIa.textContent = "🌊";
+                celdasIa.textContent = "💧";
             } else if (casillasIa.tocado == "barco") {
                 //IA
                 celdasIa.classList.add("celda_tocada");

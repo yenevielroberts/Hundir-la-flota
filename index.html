@@ -6,52 +6,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="module" src="script.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"
+        defer></script>
     <title>Document</title>
 </head>
 
 <body>
-    <h1>Hundir la flota</h1>
-    <p>Instrucciones:</p>
-    <ul>
+    <h1>Hundir la flota 🚢</h1>
+    <p>Instrucciones 📋:</p>
+    <ol>
         <li>Selecionar el barco</li>
         <li>Seleccionar la dirección</li>
         <li>Seleccionar la celda</li>
-        <li>click en el boton <strong>Colocar barco</strong></li>
-    </ul>
-    <div id="container">
-        <!--seccion del usuario-->
-        <section id="section_user">
-            <div id="info_user">
-                <h2 id="tituloUser">Tu tablero</h2>
-                <section id="btnBarcos">
-                    <button id="Portaaviones">Porta aviones (5)</button>
-                    <button id="Acorazado">Acorazado (4)</button>
-                    <button id="Crucero">Crucero (3)</button>
-                    <button id="Submarino">Submarino (3)</button>
-                    <button id="Destructor">Destructor (2)</button>
-                </section>
-                <h3>Dirección del barco</h3>
-                <section id="btnDirección">
-                    <button id="horizontal">Horizontal</button>
-                    <button id="vertical">Vertical</button>
-                   <button id="aleatorio">Colocar barcos de forma aleatoria</button>
-                    <button id="btnNuevaPartida" disabled="true" style="display: none;">Nueva partida</button>
-                    <button id="btnGuardar">Guardar partida</button>
-                    <button id="btnCargar">Cargar una ya jugada</button>
-                </section>
-            </div>
-            <div id="contenedor_user"></div>
-        </section>
+        <li>Después que empienza el juego seleciona una celda del tablero AI</li>
+        </ul>
+        <p>🎉Gana quien hunda primero todos los barcos del enemigo 🎉</p>
+        <div id="container">
+            <!--seccion del usuario-->
+            <section id="section_user">
+                <div id="info_user">
+                    <h2 id="tituloUser">Tu tablero</h2>
+                    <section id="btnBarcos">
+                        <button id="Portaaviones">Porta aviones (5)</button>
+                        <button id="Acorazado">Acorazado (4)</button>
+                        <button id="Crucero">Crucero (3)</button>
+                        <button id="Submarino">Submarino (3)</button>
+                        <button id="Destructor">Destructor (2)</button>
+                    </section>
+                    <h3>Dirección del barco</h3>
+                    <section id="btnDirección">
+                        <button id="horizontal">Horizontal</button>
+                        <button id="vertical">Vertical</button>
+                        <button id="aleatorio">Colocar barcos aleatorios</button>
+                    </section>
+                    <section id="btnDirección">
+                        <button id="btnGuardar">Guardar partida</button>
+                        <button id="btnCargar">Cargar una partida</button>
+                        <button id="btnHistorial">Ver historial de partidas</button>
+                    </section>
 
-        <!--Sección de la AI-->
-        <section id="section_ai">
-            <div id="info_ai">
-                <h2>Tablero AI</h2>
-            </div>
-            <div id="contenedor_ai"></div>
-        </section>
-    </div>
+                </div>
+                <div id="contenedor_user"></div>
+            </section>
+
+            <!--Sección de la AI-->
+            <section id="section_ai">
+                <div id="info_ai">
+                    <h2>Tablero AI</h2>
+                </div>
+                <div id="contenedor_ai"></div>
+            </section>
+        </div>
 </body>
 
 </html>
