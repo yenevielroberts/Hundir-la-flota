@@ -169,7 +169,7 @@ function handlerTableroAI(event) {
 
             if (comprobarHundimientoBarco(listaBarcosIA[indexBarcoTocado], listaCeldasIA)) {
                 listaBarcosIA[indexBarcoTocado].hundido = true
-                alert("Barco: " + listaCeldasIA[fila][columna].nomBarco + " hundido")
+                alert("Has hundido este barco: " + listaCeldasIA[fila][columna].nomBarco)
             }
         } else {
             listaCeldasIA[fila][columna].tocado = "agua"
@@ -218,7 +218,7 @@ function turnoDeAI() {
             let indexBarcoTocado = obtenerPosicionBarco(celda.nomBarco)
             if (comprobarHundimientoBarco(userListabarcos[indexBarcoTocado], userListaceldas)) {
                 userListabarcos[indexBarcoTocado].hundido = true
-                alert("Barco: " + celda.nomBarco + " hundido")
+                alert("LA IA hundió este barco: " + celda.nomBarco)
             }
         }
 
@@ -366,7 +366,7 @@ function comprobarGanador() {
         });
     }
 
-    if(ganadorPartida.length>=0){
+    if(ganadorPartida.length<=0){
         ganadorPartida="No hay ganador aún";
     }
 
@@ -449,6 +449,7 @@ document.getElementById("btnGuardar").addEventListener("click", () => {
     const nombreJugador = prompt("Introduce tu nombre:");
 
     if (nombreJugador != null) {
+        comprobarGanador()
         //DEFINE AQUI LO QUE QUIERAS, PUEDES AÑADIR MAS PARAMETROS
         guardarPartida(nombreJugador, tableroJugador, tableroIA,estadoPartida,ganadorPartida);
     }
@@ -474,12 +475,11 @@ document.getElementById("btnHistorial").addEventListener("click",()=>{
 
 function recuperaTablerosApi(partida) {
 
-     console.log(estadoPartida)
-    console.log(ganadorPartida)
     const celdasUserHTML = document.getElementsByClassName("celda_user");//array de las celdas(div)html del usuario
     const iaCeldasHTML = document.getElementsByClassName("celda_ai");//array de las celdas(div)html de la IA
 
-    tableroIA.cargaDeJson(partida.tableroIA)//Convierto objecto javascript el json de tableroJugador
+    tableroIA.cargaDeJson(partida.tableroIA)
+    
     tableroJugador.cargaDeJson(partida.tableroJugador)
     
 

@@ -243,8 +243,9 @@ export class Tablero {
         return this.casillas
     }
 
-    cargaDeJson(tablero) {
+    cargaDeJson(tableroJson) {
 
+        const tablero=JSON.parse(tableroJson)
         this.tamano = tablero.tamano;
         for (let i = 0; i < tablero.casillas.length; i++) {
 
