@@ -10,7 +10,7 @@ export class Barco {
         this.nombre = nombre
         this.tamano = tamano
         this.posiciones = []
-        this.colocado=false
+        this.colocado = false
     }
     //getter
     get nombre() {
@@ -22,11 +22,11 @@ export class Barco {
     get posiciones() {
         return this.posiciones
     }
-    get colocado(){
+    get colocado() {
         return this.colocado
     }
 
-    get hundido(){
+    get hundido() {
         return this.hundido
     }
     //setter
@@ -40,21 +40,22 @@ export class Barco {
     set posiciones(nuevaPosicion) {
         this.posiciones = nuevaPosicion
     }
-    set colocado(valor){
-        this.colocado=valor
+    set colocado(valor) {
+        this.colocado = valor
     }
 
-    set hundido(valor){
-        this.hundido=valor
+    set hundido(valor) {
+        this.hundido = valor
     }
 
-    cargaDeJson(barcoInfo){
-        
-        this.nombre=barcoInfo.nombre
-        this.tamano=barcoInfo.tamano
-        this.colocado=barcoInfo.colocado
-        this.hundido=barcoInfo.hundido
-        this.posiciones=barcoInfo.posiciones
+    //Método que carga el json, los valores del json sobreescribiran los valores iniciales de la partida
+    cargaDeJson(barcoInfo) {
+
+        this.nombre = barcoInfo.nombre
+        this.tamano = barcoInfo.tamano
+        this.colocado = barcoInfo.colocado
+        this.hundido = barcoInfo.hundido
+        this.posiciones = barcoInfo.posiciones
 
     }
 

@@ -13,7 +13,7 @@ export class Tablero {
         this.listaBarcos = []
 
     }
-    //genera el tablero de la maquina
+    //genera los tableros
     generarTablero() {
 
         for (let i = 0; i < 10; i++) {
@@ -26,6 +26,7 @@ export class Tablero {
         }
     }
 
+    //método que instancia objetos de la clase barco y guardo la info de los barcos
     guardarBarcos(jsonBarcos) {
 
         let barcos = JSON.parse(jsonBarcos)
@@ -38,7 +39,7 @@ export class Tablero {
         }
     }
 
-    //función que coloca los barcos en el tablero de la maquina
+    //método que coloca los barcos de forma aleatoria
     colocarBarcos() {
 
         this.listaBarcos.forEach(barco => {
@@ -58,12 +59,13 @@ export class Tablero {
                     direccion = "horizontal"
                 }
 
-                //genero posiciones y dirección
+                //genero posiciones
                 let fila = Math.floor(Math.random() * 10)
                 let columna = Math.floor(Math.random() * 10)
 
                 if (this.hayEspacio(barco, direccion, fila, columna)) {
 
+                    //Se hara una iteración por cada celda que ocupe un barco
                     for (let x = 0; x < barco.tamano; x++) {
 
 
@@ -96,7 +98,7 @@ export class Tablero {
 
         let posX = 0;
         let posY = 0;
-        if (objetoBarco.colocado == false) {
+        if (objetoBarco.colocado == false) {//sino esta colocado lo coloco
 
             if (this.hayEspacio(objetoBarco, direccion, fila, columna)) {
                 for (let x = 0; x < objetoBarco.tamano; x++) {
@@ -143,6 +145,7 @@ export class Tablero {
         return colocado
     }
 
+    //Método que coloca los barcos de usuario aleatoriamente
     ColocarBarcosAleatorio() {
 
         this.listaBarcos.forEach(barco => {
@@ -197,12 +200,12 @@ export class Tablero {
         })
     }
 
-    //función que controla donde se puede posicionar los barcos en el tablero de la maquina
+    //función que controla donde se puede posicionar los barcos en el tablero 
     hayEspacio(barco, direccion, fila, columna) {
 
         let espacioLibre = true;
-        //compruebo posiciones dependiendo si la dirección es vertical o horizontal
 
+        //Se hara una iteración por cada celda que ocupe un barco
         for (let i = 0; i < barco.tamano; i++) {
 
             let posx = 0;
@@ -229,8 +232,6 @@ export class Tablero {
             }
 
         }
-
-
         return espacioLibre
     }
 
@@ -243,9 +244,10 @@ export class Tablero {
         return this.casillas
     }
 
+    //Método que carga el json, los valores del json sobreescribiran los valores iniciales de la partida
     cargaDeJson(tableroJson) {
 
-        const tablero=JSON.parse(tableroJson)
+        const tablero = JSON.parse(tableroJson)
         this.tamano = tablero.tamano;
         for (let i = 0; i < tablero.casillas.length; i++) {
 

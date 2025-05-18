@@ -1,9 +1,9 @@
 export class Celda {
-    agua=true
-    tocado=""
+    agua = true
+    tocado = ""
     posicion = [];
-    nomBarco=""
-    sizeBarco=0
+    nomBarco = ""
+    sizeBarco = 0
 
     constructor() {
         this.agua = true
@@ -54,8 +54,9 @@ export class Celda {
         this.tocado = valor
     }
 
-    cargaDeJson(celdaInfo){
-        
+    //Método que carga el json, los valores del json sobreescribiran los valores iniciales de la partida
+    cargaDeJson(celdaInfo) {
+
         this.agua = celdaInfo.agua
         this.tocado = celdaInfo.tocado
         this.posicion = celdaInfo.posicion
