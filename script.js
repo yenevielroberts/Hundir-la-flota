@@ -141,15 +141,12 @@ function visualizarBarcosUser(event) {
         activarTableroAi()
         desactivarBotones()
     }
-
 }
 
 //event handler del tablero IA
 function handlerTableroAI(event) {
 
     if (!comprobarGanador()) {//compruebo antes si se ha ganado
-
-
         const celdasTablerblank = document.getElementsByClassName("celda_ai")
 
         let celdaIndex = event.target.id//obtengo el id de la celda que a la vez es la posicion dentro del array de celdas

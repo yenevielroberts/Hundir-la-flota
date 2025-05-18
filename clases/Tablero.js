@@ -68,7 +68,6 @@ export class Tablero {
                     //Se hara una iteración por cada celda que ocupe un barco
                     for (let x = 0; x < barco.tamano; x++) {
 
-
                         if (direccion == "horizontal") {
                             posx = columna + x//incrementa una celda horizontal
                             posY = fila
@@ -76,7 +75,6 @@ export class Tablero {
                             posY = fila + x
                             posx = columna
                         }
-
                         this.casillas[posY][posx].agua = false;//la celda es esa posición estara ocupada
                         this.casillas[posY][posx].posicion.push([posY, posx])//guarda la posicion de esa celda
 
@@ -125,13 +123,10 @@ export class Tablero {
                         this.casillas[posX][posY].sizeBarco = objetoBarco.tamano
 
                         objetoBarco.posiciones.push([posX, posY])
-
                     }
-
                 }
 
                 objetoBarco.colocado = true
-
             } else {
                 colocado = false
                 console.log("Error. No se puede colocar el barco en esa posición")
@@ -141,7 +136,6 @@ export class Tablero {
             colocado = false
             console.log("Este barco ya esta colocado")
         }
-
         return colocado
     }
 
@@ -164,17 +158,13 @@ export class Tablero {
                 } else if (direccionRandom === 1) {
                     direccion = "horizontal"
                 }
-
                 //genero posiciones y dirección
                 let fila = Math.floor(Math.random() * 10)
                 let columna = Math.floor(Math.random() * 10)
 
-
                 if (this.hayEspacio(barco, direccion, fila, columna)) {
 
                     for (let x = 0; x < barco.tamano; x++) {
-
-
                         if (direccion == "horizontal") {
                             posx = columna + x//incrementa una celda horizontal
                             posY = fila
@@ -182,15 +172,12 @@ export class Tablero {
                             posY = fila + x
                             posx = columna
                         }
-
                         this.casillas[posY][posx].agua = false;//la celda es esa posición estara ocupada
-
                         this.casillas[posY][posx].posicion.push([posY, posx])//guarda la posicion de esa celda
 
                         this.casillas[posY][posx].nomBarco = barco.nombre
                         this.casillas[posY][posx].sizeBarco = barco.tamano
                         barco.posiciones.push([posY, posx])
-
                     }
                     barco.colocado = true
                     colocado = true
@@ -204,13 +191,11 @@ export class Tablero {
     hayEspacio(barco, direccion, fila, columna) {
 
         let espacioLibre = true;
-
         //Se hara una iteración por cada celda que ocupe un barco
         for (let i = 0; i < barco.tamano; i++) {
 
             let posx = 0;
             let posY = 0;
-
 
             if (direccion == "horizontal") {
                 posx = columna + i//incrementa una celda
@@ -230,7 +215,6 @@ export class Tablero {
                 espacioLibre = false;
                 break;
             }
-
         }
         return espacioLibre
     }
@@ -253,13 +237,10 @@ export class Tablero {
         const tablero = JSON.parse(tableroJson)
         this.tamano = tablero.tamano;
         for (let i = 0; i < tablero.casillas.length; i++) {
-
-
             for (let j = 0; j < tablero.casillas[i].length; j++) {
                 this.casillas[i][j].cargaDeJson(tablero.casillas[i][j])
             }
         }
-
         for (let x = 0; x < this.listaBarcos.length; x++) {
             this.listaBarcos[x].cargaDeJson(tablero.listaBarcos[x])
         }
