@@ -1,3 +1,4 @@
+//Función que obtiene todas las partidas
 async function todasLasPartidas() {
 
     try {
@@ -36,9 +37,12 @@ async function mostrarHistorial() {
             }
         });
 
+    }else{
+       const mensaje=document.createElement("p");
+       mensaje.textContent="No se introdujo un nombre";
+       container.appendChild(mensaje)
     }
 }
-
 
 document.getElementById("btnCargar").addEventListener("click", () => {
     location.href = "index.html";
