@@ -379,7 +379,10 @@ function comprobarGanador() {
             let jugarDeNuevo = confirm("¿Quieres seguir jugando?")
             let nombreJugador = prompt("Introduce tu nombre para guardar la partida:")
 
-            guardarPartida(nombreJugador, tableroJugador, tableroIA, estadoPartida, ganadorPartida);//guardo la partida sin importa lo que el user elija en el confirm
+           if(nombreJugador!=null){
+             guardarPartida(nombreJugador, tableroJugador, tableroIA, estadoPartida, ganadorPartida);//guardo la partida sin importa lo que el user elija en el confirm
+           }
+           
             if (jugarDeNuevo) {
                 location.reload();
             }
