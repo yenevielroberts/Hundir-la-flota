@@ -1,5 +1,5 @@
-import { Tablero } from "./Tablero.js";
-import { TableroUser } from "./TableroUser.js";
+import { Tablero } from "./clases/Tablero.js";
+
 
 
 const barcosJson = `[
