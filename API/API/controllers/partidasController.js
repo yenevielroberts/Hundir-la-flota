@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { generarId } from '../utils/idGenerator.js';
 
-const rutaArchivo = './data/partidas.json';
+const rutaArchivo = 'API/API/data/partidas.json';
 
 export function getPartidas(req, res) {
     const data = JSON.parse(fs.readFileSync(rutaArchivo));
