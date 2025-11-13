@@ -27,9 +27,16 @@ El objetivo de este juego es ser el primero en hundir todos los barcos del rival
 - Las celdas.
 
 
+## 
+https://github.com/user-attachments/assets/000a7578-326f-4137-8717-a32dfa5066eb
+
+https://github.com/user-attachments/assets/fe20c737-b65d-4c1d-801d-ea5a4cf2f707
+
+
 **Desarrollado por:** Yeneviel Roberts Mendez
   
 **Desarrollo de la API**: Alicia Vazquez
 
 
  
+
